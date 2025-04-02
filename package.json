@@ -11,13 +11,13 @@
   "devDependencies": {
     "turbo": "2.4.4"
   },
-  "packageManager": "pnpm@10.6.5",
+  "packageManager": "pnpm@10.7.1",
   "engines": {
     "node": "22"
   },
   "volta": {
     "node": "22.14.0",
-    "pnpm": "10.6.5"
+    "pnpm": "10.7.1"
   },
   "author": "ToyB0x"
 }
