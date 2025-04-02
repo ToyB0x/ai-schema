@@ -28,6 +28,7 @@ export default defineConfig({
 			{ text: "Home", link: "/" },
 			{ text: "Guide", link: "/concept" },
 			{ text: "API", link: "/api" },
+			{ text: "Pricing", link: "/price" },
 			{
 				text: "Resources",
 				items: [
