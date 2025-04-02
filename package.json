@@ -1,23 +1,24 @@
 {
-  "name": "@ai-schema/root",
-  "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
-  },
-  "devDependencies": {
-    "turbo": "2.4.4"
-  },
-  "packageManager": "pnpm@10.7.1",
-  "engines": {
-    "node": "22.14.0"
-  },
-  "volta": {
-    "node": "22.14.0",
-    "pnpm": "10.7.1"
-  },
-  "author": "ToyB0x"
+	"name": "@ai-schema/root",
+	"private": true,
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"lint": "biome check .",
+		"lint:fix": "biome check . --write",
+		"typecheck": "turbo run typecheck"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"turbo": "2.4.4"
+	},
+	"packageManager": "pnpm@10.7.1",
+	"engines": {
+		"node": "22.14.0"
+	},
+	"volta": {
+		"node": "22.14.0",
+		"pnpm": "10.7.1"
+	},
+	"author": "ToyB0x"
 }
