@@ -235,7 +235,8 @@ input:checked + .slider:before {
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
 }
@@ -248,6 +249,7 @@ input:checked + .slider:before {
 
 .pricing-plan.popular {
   border: 2px solid var(--vp-c-brand-1);
+  box-shadow: 0 4px 16px rgba(var(--vp-c-brand-1-rgb), 0.2);
   z-index: 2;
 }
 
@@ -394,7 +396,8 @@ input:checked + .slider:before {
   background: var(--vp-c-bg-soft);
   border-radius: 12px;
   padding: 1.5rem;
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 .faq-item h3 {
