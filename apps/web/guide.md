@@ -1,13 +1,13 @@
-# ai-schema 実装ガイド
+# ai-schema Implementation Guide
 
-このページでは、ai-schemaを使用してAI駆動開発を安全に推進するための実装ガイドを提供します。ai-schemaは、AIが間違いを犯しても安全性を担保するガードレールとスキーマ定義を提供するプラットフォームです。
+This page provides an implementation guide for using ai-schema to safely promote AI-driven development. ai-schema is a platform that provides guardrails and schema definitions to ensure safety even if AI makes mistakes.
 
-## スキーマ定義の基本
+## Schema Definition Basics
 
-ai-schemaでは、GraphQLスキーマを中心としたスキーマ定義を活用します。これにより、AIに明確なガイドラインを提供し、フロントエンドとバックエンドの整合性を確保します。
+ai-schema utilizes schema definitions centered around GraphQL schemas. This provides clear guidelines to AI and ensures consistency between the front-end and backend.
 
 ::: info
-スキーマ定義の例：
+Example of Schema Definition:
 
 ```graphql
 type User {
@@ -35,53 +35,53 @@ type Mutation {
 }
 ```
 
-このスキーマ定義により、AIはユーザー関連の機能を実装する際に、必要なフィールドや型情報を正確に把握できます。
+This schema definition allows AI to accurately grasp the necessary fields and type information when implementing user-related features.
 :::
 
-## ガードレールの設定
+## Setting Up Guardrails
 
-ai-schemaでは、AIが間違いを犯しても安全性を担保するためのガードレールを設定できます。ガードレールは、以下のような要素で構成されます：
+ai-schema allows you to set up guardrails to ensure safety even if AI makes mistakes. Guardrails consist of the following elements:
 
 ::: tip
-ガードレールは、AIの間違いを許容しつつも、重大な問題を防ぐための仕組みです。
+Guardrails are mechanisms to prevent critical issues while tolerating AI mistakes.
 :::
 
-| ガードレール要素 | 説明 |
+| Guardrail Element | Description |
 |------------|------|
-| **バリデーションルール** | ユーザー入力やAIの出力を検証するルール |
-| **型チェック** | GraphQLスキーマに基づいた型チェック |
-| **セキュリティポリシー** | セキュリティ上の制約やポリシー |
-| **パフォーマンス制約** | パフォーマンスに関する制約 |
+| **Validation Rules** | Rules to validate user input or AI output |
+| **Type Checking** | Type checking based on GraphQL schema |
+| **Security Policies** | Security constraints and policies |
+| **Performance Constraints** | Constraints related to performance |
 
-## GraphQLスキーマの活用
+## Utilizing GraphQL Schema
 
-GraphQLスキーマは、フロントエンドとバックエンドの間のインターフェースを明確に定義します。ai-schemaでは、GraphQLスキーマを活用して以下のような機能を実現します：
+GraphQL schemas clearly define the interface between the front-end and backend. ai-schema utilizes GraphQL schemas to achieve the following functionalities:
 
-### 型安全なクエリとミューテーション
+### Type-Safe Queries and Mutations
 
 ```typescript{1,6-7}
-// GraphQLクエリの例
+// Example of GraphQL Query
 const GET_USER = gql`
   query GetUser($id: ID!) {
     user(id: $id) {
       id
-      name  # ハイライト: スキーマで定義されたフィールド
-      email  # ハイライト: スキーマで定義されたフィールド
+      name  # Highlight: Field defined in the schema
+      email  # Highlight: Field defined in the schema
       role
     }
   }
 `;
 
-// クエリの実行
+// Executing the query
 const { data, loading, error } = useQuery(GET_USER, {
   variables: { id: userId }
 });
 ```
 
-### スキーマから自動生成されるTypeScript型
+### TypeScript Types Auto-Generated from Schema
 
 ```typescript
-// GraphQLスキーマから自動生成された型
+// Types auto-generated from GraphQL schema
 interface User {
   id: string;
   name: string;
@@ -95,17 +95,17 @@ enum UserRole {
   GUEST = 'GUEST'
 }
 
-// 型安全な関数
+// Type-safe function
 function formatUserName(user: User): string {
   return `${user.name} (${user.role.toLowerCase()})`;
 }
 ```
 
-## OpenAI APIの活用
+## Utilizing OpenAI API
 
-ai-schemaでは、OpenAI APIを活用してユーザー入力の検証やコンテンツの生成を安全に行うことができます。
+ai-schema utilizes the OpenAI API to safely validate user input and generate content.
 
-### ユーザー入力の検証
+### Validating User Input
 
 ```typescript
 import { OpenAI } from 'openai';
@@ -114,13 +114,13 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// ユーザー入力の検証
+// Validate user input
 async function validateUserInput(input: string): Promise<boolean> {
   const response = await openai.chat.completions.create({
     model: 'gpt-4',
     messages: [
-      { role: 'system', content: 'あなたはユーザー入力を検証するアシスタントです。' },
-      { role: 'user', content: `以下の入力が安全かどうか判断してください: ${input}` }
+      { role: 'system', content: 'You are an assistant that validates user input.' },
+      { role: 'user', content: `Determine if the following input is safe: ${input}` }
     ],
     temperature: 0,
   });
@@ -129,47 +129,47 @@ async function validateUserInput(input: string): Promise<boolean> {
 }
 ```
 
-### コンテンツの生成
+### Generating Content
 
 ```typescript
-// コンテンツの生成
+// Generate content
 async function generateDescription(product: Product): Promise<string> {
   const response = await openai.chat.completions.create({
     model: 'gpt-4',
     messages: [
-      { role: 'system', content: 'あなたは商品説明を生成するアシスタントです。' },
-      { role: 'user', content: `以下の商品の説明を生成してください: ${JSON.stringify(product)}` }
+      { role: 'system', content: 'You are an assistant that generates product descriptions.' },
+      { role: 'user', content: `Generate a description for the following product: ${JSON.stringify(product)}` }
     ],
     temperature: 0.7,
   });
   
-  return response.choices[0].message.content ?? '商品説明がありません';
+  return response.choices[0].message.content ?? 'No description available';
 }
 ```
 
-## Vibe Codingの実践
+## Practicing Vibe Coding
 
-Vibe Codingは、開発者がAIに大まかな指示を出し、AIがコードを生成するという新しい開発手法です。ai-schemaを活用することで、Vibe Codingを安全かつ効率的に実践できます。
+Vibe Coding is a new development method where developers give high-level instructions to AI, and AI generates the code. Utilizing ai-schema allows for safe and efficient practice of Vibe Coding.
 
 ::: warning
-Vibe Codingは強力ですが、適切なガードレールなしでは予期しない結果を招く可能性があります。
+Vibe Coding is powerful, but without proper guardrails, it can lead to unexpected results.
 :::
 
-### Vibe Codingの基本ステップ
+### Basic Steps of Vibe Coding
 
-1. **スキーマ定義**: GraphQLスキーマなどを使用して、システムの構造を定義します
-2. **大まかな指示**: AIに大まかな指示を出します
-3. **コード生成**: AIがコードを生成します
-4. **レビューと修正**: 生成されたコードをレビューし、必要に応じて修正します
-5. **反復**: 必要に応じてステップ2〜4を繰り返します
+1. **Schema Definition**: Define the system structure using GraphQL schemas, etc.
+2. **High-Level Instructions**: Give high-level instructions to AI.
+3. **Code Generation**: AI generates the code.
+4. **Review and Correction**: Review the generated code and correct it if necessary.
+5. **Iteration**: Repeat steps 2-4 as needed.
 
-### Vibe Codingの例
+### Example of Vibe Coding
 
-::: details 対話例
+::: details Dialogue Example
 ```
-開発者: GraphQLスキーマに基づいたユーザー編集フォームを作成してください
+Developer: Create a user edit form based on the GraphQL schema.
 
-AI: スキーマ情報を確認しました。以下のReactコンポーネントを生成します：
+AI: Schema information confirmed. Generating the following React component:
 
 import React, { useState } from 'react';
 
@@ -197,25 +197,25 @@ export const UserForm: React.FC<UserFormProps> = ({
   const [role, setRole] = useState<UserRole>(initialValues.role || 'USER');
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // バリデーション関数
+  // Validation function
   const validate = () => {
     const newErrors: Record<string, string> = {};
     
     if (!name.trim()) {
-      newErrors.name = '名前は必須です';
+      newErrors.name = 'Name is required';
     }
     
     if (!email.trim()) {
-      newErrors.email = 'メールアドレスは必須です';
+      newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = '有効なメールアドレスを入力してください';
+      newErrors.email = 'Enter a valid email address';
     }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // フォーム送信ハンドラ
+  // Form submission handler
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -227,7 +227,7 @@ export const UserForm: React.FC<UserFormProps> = ({
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="name">名前</label>
+        <label htmlFor="name">Name</label>
         <input
           id="name"
           value={name}
@@ -237,7 +237,7 @@ export const UserForm: React.FC<UserFormProps> = ({
       </div>
       
       <div>
-        <label htmlFor="email">メールアドレス</label>
+        <label htmlFor="email">Email</label>
         <input
           id="email"
           type="email"
@@ -248,31 +248,31 @@ export const UserForm: React.FC<UserFormProps> = ({
       </div>
       
       <div>
-        <label htmlFor="role">ロール</label>
+        <label htmlFor="role">Role</label>
         <select
           id="role"
           value={role}
           onChange={(e) => setRole(e.target.value as UserRole)}
         >
-          <option value="ADMIN">管理者</option>
-          <option value="USER">ユーザー</option>
-          <option value="GUEST">ゲスト</option>
+          <option value="ADMIN">Admin</option>
+          <option value="USER">User</option>
+          <option value="GUEST">Guest</option>
         </select>
       </div>
       
-      <button type="submit">送信</button>
+      <button type="submit">Submit</button>
     </form>
   );
 };
 ```
 :::
 
-## カスタムガードレールの作成
+## Creating Custom Guardrails
 
-ai-schemaでは、プロジェクトや組織に合わせたカスタムガードレールを作成できます。カスタムガードレールは、以下のような構造で定義できます：
+ai-schema allows you to create custom guardrails tailored to your project or organization. Custom guardrails can be defined with the following structure:
 
 ```typescript
-// カスタムガードレールの定義
+// Definition of a custom guardrail
 import { GuardRail, ValidationResult } from '@ai-schema/core';
 
 export class UserInputGuardRail implements GuardRail {
@@ -281,21 +281,21 @@ export class UserInputGuardRail implements GuardRail {
   validate(input: string): ValidationResult {
     const violations: string[] = [];
     
-    // 入力が空でないことを確認
+    // Check if input is not empty
     if (!input.trim()) {
-      violations.push('入力が空です');
+      violations.push('Input is empty');
     }
     
-    // 入力が長すぎないことを確認
+    // Check if input is not too long
     if (input.length > 1000) {
-      violations.push('入力が長すぎます（最大1000文字）');
+      violations.push('Input is too long (max 1000 characters)');
     }
     
-    // 禁止語句が含まれていないことを確認
-    const forbiddenWords = ['パスワード', 'クレジットカード', '秘密'];
+    // Check if forbidden words are included
+    const forbiddenWords = ['password', 'credit card', 'secret'];
     for (const word of forbiddenWords) {
       if (input.toLowerCase().includes(word.toLowerCase())) {
-        violations.push(`禁止語句「${word}」が含まれています`);
+        violations.push(`Forbidden word "${word}" is included`);
       }
     }
     
@@ -307,50 +307,50 @@ export class UserInputGuardRail implements GuardRail {
 }
 ```
 
-## シンタックスハイライト
+## Syntax Highlighting
 
-ai-schemaのドキュメントでは、コードブロックでシンタックスハイライトを活用できます：
+ai-schema documentation utilizes syntax highlighting in code blocks:
 
 ```typescript{4,8-10}
-// GraphQLクライアントの設定例
+// Example of GraphQL client configuration
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-const client = new ApolloClient({  // ハイライト: クライアントの初期化
+const client = new ApolloClient({  // Highlight: Client initialization
   uri: 'https://api.example.com/graphql',
   cache: new InMemoryCache(),
   defaultOptions: {
-    watchQuery: {  // ハイライト: クエリオプションの設定
-      fetchPolicy: 'cache-and-network',  // ハイライト: フェッチポリシーの設定
-      errorPolicy: 'all',  // ハイライト: エラーポリシーの設定
+    watchQuery: {  // Highlight: Query option configuration
+      fetchPolicy: 'cache-and-network',  // Highlight: Fetch policy configuration
+      errorPolicy: 'all',  // Highlight: Error policy configuration
     },
   },
 });
 ```
 
-## カスタムコンテナの活用
+## Utilizing Custom Containers
 
-ai-schemaのドキュメントでは、情報を効果的に伝えるためにカスタムコンテナを活用できます：
+ai-schema documentation utilizes custom containers to effectively convey information:
 
 ::: info
-ai-schemaは、AI駆動開発を安全に推進するための強力なツールです。
+ai-schema is a powerful tool for safely promoting AI-driven development.
 :::
 
 ::: tip
-複数のプロジェクト間で一貫したスキーマ定義を維持するには、共有リポジトリを使用してください。
+Use a shared repository to maintain consistent schema definitions across multiple projects.
 :::
 
 ::: warning
-AIの出力は常に検証してください。ai-schemaはガードレールを提供しますが、最終的な責任は開発者にあります。
+Always validate AI output. ai-schema provides guardrails, but the final responsibility lies with the developer.
 :::
 
 ::: danger
-本番環境では、適切なセキュリティ対策を講じてください。特に、ユーザー入力の検証は重要です。
+Implement appropriate security measures in production environments. User input validation is particularly important.
 :::
 
-::: details ai-schemaの内部動作
-ai-schemaは、GraphQLスキーマやOpenAI APIなどのバックエンドサービスと連携し、AIが間違いを犯しても安全性を担保するガードレールを提供します。スキーマ定義に基づいて型チェックを行い、AIの出力が常にバックエンドと互換性を持つことを保証します。
+::: details How ai-schema Works Internally
+ai-schema integrates with backend services like GraphQL schemas and the OpenAI API to provide guardrails that ensure safety even if AI makes mistakes. It performs type checking based on schema definitions to guarantee that AI output is always compatible with the backend.
 :::
 
-## 詳細情報
+## Further Information
 
-ai-schemaの詳細については、[GitHub リポジトリ](https://github.com/ToyB0x/ai-schema)を参照してください。
+For more details on ai-schema, refer to the [GitHub Repository](https://github.com/ToyB0x/ai-schema).

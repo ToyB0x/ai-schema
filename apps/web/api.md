@@ -2,16 +2,16 @@
 outline: deep
 ---
 
-# ai-schema API リファレンス
+# ai-schema API Reference
 
-このページでは、ai-schemaが提供するAPIと統合機能について説明します。ai-schemaは、AI駆動開発を安全に推進するためのガードレールとスキーマ定義を提供するプラットフォームです。
+This page describes the APIs and integration features provided by ai-schema. ai-schema is a platform that provides guardrails and schema definitions to safely promote AI-driven development.
 
-## MCP サーバー統合
+## MCP Server Integration
 
-ai-schemaはModel Context Protocol (MCP) サーバーを通じてAIツールと統合されます。この統合により、AIアシスタントはスキーマ定義に基づいたコード生成やガードレールの適用を自動的に行うことができます。
+ai-schema integrates with AI tools through a Model Context Protocol (MCP) server. This integration allows AI assistants to automatically perform code generation based on schema definitions and apply guardrails.
 
 ```typescript
-// MCP サーバーの基本実装例
+// Basic implementation example of an MCP server
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
@@ -34,7 +34,7 @@ class AiSchemaServer {
 
     this.setupToolHandlers();
     
-    // エラーハンドリング
+    // Error handling
     this.server.onerror = (error) => console.error('[MCP Error]', error);
   }
 
@@ -46,13 +46,13 @@ class AiSchemaServer {
 }
 ```
 
-## コア API
+## Core API
 
-ai-schemaは、AI駆動開発を安全に推進するための包括的なAPIを提供します。
+ai-schema provides a comprehensive API for safely promoting AI-driven development.
 
-### GuardRail インターフェース
+### GuardRail Interface
 
-すべてのガードレールは以下のインターフェースを実装します：
+All guardrails implement the following interface:
 
 ```typescript
 interface GuardRail {
@@ -72,33 +72,33 @@ interface ValidationResult {
 }
 ```
 
-### ガードレール実装例
+### GuardRail Implementation Example
 
 ```typescript{4-5}
-// ユーザー入力ガードレールの実装例
+// Implementation example of a user input guardrail
 import { GuardRail, ValidationResult } from '@ai-schema/core';
 
 export class UserInputGuardRail implements GuardRail {
-  id = 'user-input';  // ハイライト: ガードレールの一意識別子
+  id = 'user-input';  // Highlight: Unique identifier for the guardrail
   
   validate(input: string): ValidationResult {
     const violations: string[] = [];
     
-    // 入力が空でないことを確認
+    // Check if input is not empty
     if (!input.trim()) {
-      violations.push('入力が空です');
+      violations.push('Input is empty');
     }
     
-    // 入力が長すぎないことを確認
+    // Check if input is not too long
     if (input.length > 1000) {
-      violations.push('入力が長すぎます（最大1000文字）');
+      violations.push('Input is too long (max 1000 characters)');
     }
     
-    // 禁止語句が含まれていないことを確認
-    const forbiddenWords = ['パスワード', 'クレジットカード', '秘密'];
+    // Check if forbidden words are included
+    const forbiddenWords = ['password', 'credit card', 'secret'];
     for (const word of forbiddenWords) {
       if (input.toLowerCase().includes(word.toLowerCase())) {
-        violations.push(`禁止語句「${word}」が含まれています`);
+        violations.push(`Forbidden word "${word}" is included`);
       }
     }
     
@@ -110,11 +110,11 @@ export class UserInputGuardRail implements GuardRail {
 }
 ```
 
-## GraphQL 統合 API
+## GraphQL Integration API
 
-ai-schemaは、GraphQLスキーマを活用したガードレールとスキーマ定義を提供します。
+ai-schema provides guardrails and schema definitions utilizing GraphQL schemas.
 
-### GraphQLSchema インターフェース
+### GraphQLSchemaProvider Interface
 
 ```typescript
 interface GraphQLSchemaProvider {
@@ -124,7 +124,7 @@ interface GraphQLSchemaProvider {
 }
 ```
 
-### GraphQLSchema 実装例
+### GraphQLSchemaProvider Implementation Example
 
 ```typescript
 import { GraphQLSchemaProvider, ValidationResult } from '@ai-schema/core';
@@ -134,7 +134,7 @@ export class UserGraphQLSchemaProvider implements GraphQLSchemaProvider {
   private schema: GraphQLSchema;
   
   constructor() {
-    // GraphQLスキーマの定義
+    // Definition of the GraphQL schema
     const typeDefs = `
       type User {
         id: ID!
@@ -183,15 +183,15 @@ export class UserGraphQLSchemaProvider implements GraphQLSchemaProvider {
 }
 ```
 
-## OpenAI 統合 API
+## OpenAI Integration API
 
-ai-schemaは、OpenAI APIを活用したガードレールとコンテンツ生成機能を提供します。
+ai-schema provides guardrails and content generation features utilizing the OpenAI API.
 
 ::: info
-OpenAI APIを使用するには、OpenAI APIキーが必要です。
+An OpenAI API key is required to use the OpenAI API.
 :::
 
-### OpenAIValidator インターフェース
+### OpenAIValidator Interface
 
 ```typescript
 interface OpenAIValidator {
@@ -206,7 +206,7 @@ interface GenerationOptions {
 }
 ```
 
-### OpenAIValidator 実装例
+### OpenAIValidator Implementation Example
 
 ```typescript
 import { OpenAIValidator, ValidationResult, GenerationOptions } from '@ai-schema/core';
@@ -225,8 +225,8 @@ export class DefaultOpenAIValidator implements OpenAIValidator {
     const response = await this.openai.chat.completions.create({
       model: 'gpt-4',
       messages: [
-        { role: 'system', content: 'あなたはユーザー入力を検証するアシスタントです。' },
-        { role: 'user', content: `以下の入力が安全かどうか判断してください: ${input}` }
+        { role: 'system', content: 'You are an assistant that validates user input.' },
+        { role: 'user', content: `Determine if the following input is safe: ${input}` }
       ],
       temperature: 0,
     });
@@ -236,7 +236,7 @@ export class DefaultOpenAIValidator implements OpenAIValidator {
     
     return {
       valid,
-      violations: valid ? [] : ['入力が安全ではありません']
+      violations: valid ? [] : ['Input is not safe']
     };
   }
   
@@ -255,28 +255,28 @@ export class DefaultOpenAIValidator implements OpenAIValidator {
 }
 ```
 
-## ツール API
+## Tool API
 
-ai-schemaは、以下のようなツールAPIを提供します：
+ai-schema provides the following tool APIs:
 
 ::: info
-これらのAPIは、MCPサーバーを通じてAIアシスタントに公開されます。
+These APIs are exposed to AI assistants through the MCP server.
 :::
 
-| ツール名 | 説明 |
+| Tool Name | Description |
 |---------|------|
-| `validate-schema` | GraphQLスキーマの検証を行います |
-| `validate-input` | ユーザー入力の検証を行います |
-| `generate-component` | スキーマに基づいたUIコンポーネントを生成します |
-| `generate-query` | スキーマに基づいたGraphQLクエリを生成します |
-| `generate-mutation` | スキーマに基づいたGraphQLミューテーションを生成します |
-| `apply-guardrail` | ガードレールを適用します |
-| `load-schema` | GraphQLスキーマを読み込みます |
-| `validate-code` | 生成されたコードの検証を行います |
+| `validate-schema` | Validates the GraphQL schema |
+| `validate-input` | Validates user input |
+| `generate-component` | Generates UI components based on the schema |
+| `generate-query` | Generates GraphQL queries based on the schema |
+| `generate-mutation` | Generates GraphQL mutations based on the schema |
+| `apply-guardrail` | Applies guardrails |
+| `load-schema` | Loads the GraphQL schema |
+| `validate-code` | Validates generated code |
 
-## 設定例
+## Configuration Example
 
-ai-schemaの設定ファイル（`ai-schema.config.json`）の例：
+Example of an ai-schema configuration file (`ai-schema.config.json`):
 
 ```json
 {
@@ -293,7 +293,7 @@ ai-schemaの設定ファイル（`ai-schema.config.json`）の例：
       "enabled": true,
       "options": {
         "maxLength": 1000,
-        "forbiddenWords": ["パスワード", "クレジットカード", "秘密"]
+        "forbiddenWords": ["password", "credit card", "secret"]
       }
     },
     "codeGeneration": {
@@ -308,16 +308,16 @@ ai-schemaの設定ファイル（`ai-schema.config.json`）の例：
 }
 ```
 
-## クライアント統合例
+## Client Integration Example
 
-ai-schemaをReactアプリケーションに統合する例：
+Example of integrating ai-schema into a React application:
 
 ```tsx
 import React, { useState } from 'react';
 import { AiSchema, GuardRail } from '@ai-schema/react';
 import { UserInputGuardRail } from './guardrails/UserInputGuardRail';
 
-// ガードレールの設定
+// Guardrail configuration
 const guardrails: GuardRail[] = [
   new UserInputGuardRail()
 ];
@@ -330,11 +330,11 @@ function App() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // ガードレールの適用
+    // Apply guardrails
     const validationResult = await AiSchema.validateInput(input, guardrails);
     
     if (validationResult.valid) {
-      // 安全な入力の処理
+      // Process safe input
       const response = await fetch('/api/process', {
         method: 'POST',
         headers: {
@@ -347,7 +347,7 @@ function App() {
       setResult(data.result);
       setViolations([]);
     } else {
-      // 違反の表示
+      // Display violations
       setViolations(validationResult.violations);
       setResult(null);
     }
@@ -355,11 +355,11 @@ function App() {
   
   return (
     <div>
-      <h1>AI駆動アプリケーション</h1>
+      <h1>AI-Driven Application</h1>
       
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="input">入力:</label>
+          <label htmlFor="input">Input:</label>
           <textarea
             id="input"
             value={input}
@@ -371,7 +371,7 @@ function App() {
         
         {violations.length > 0 && (
           <div className="violations">
-            <h3>入力エラー:</h3>
+            <h3>Input Errors:</h3>
             <ul>
               {violations.map((violation, index) => (
                 <li key={index}>{violation}</li>
@@ -380,12 +380,12 @@ function App() {
           </div>
         )}
         
-        <button type="submit">送信</button>
+        <button type="submit">Submit</button>
       </form>
       
       {result && (
         <div className="result">
-          <h3>結果:</h3>
+          <h3>Result:</h3>
           <p>{result}</p>
         </div>
       )}
@@ -396,6 +396,6 @@ function App() {
 export default App;
 ```
 
-## 詳細情報
+## Further Information
 
-ai-schemaのAPIと統合機能の詳細については、[GitHub リポジトリ](https://github.com/ToyB0x/ai-schema)を参照してください。
+For more details on ai-schema's API and integration features, refer to the [GitHub Repository](https://github.com/ToyB0x/ai-schema).
