@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: "プラン選択"
+  name: "Pricing"
   text: "Find the Perfect Plan for Your Needs"
-  tagline: "スケーラブルなプランで、あなたのビジネスの成長をサポートします。"
+  tagline: "Scalable plans to support your business growth"
   actions:
     - theme: brand
       text: Get Started
@@ -14,127 +14,119 @@ hero:
       link: "#contact"
 ---
 
-<div class="pricing-container" id="pricing">
-  <h1>Pricing Plans</h1>
-  <div class="pricing-subtitle">Choose the plan that fits your needs</div>
-  
-  <div class="pricing-toggle">
-    <span class="active">Monthly</span>
-    <label class="switch">
-      <input type="checkbox" id="billing-toggle">
-      <span class="slider round"></span>
-    </label>
-    <span>Yearly <span class="save-badge">Save 20%</span></span>
-  </div>
+<div class="pricing-section" id="pricing">
 
-  <div class="pricing-grid">
-    <div class="pricing-card">
-      <div class="card-header">
-        <h2>Free</h2>
-        <div class="price">
-          <span class="currency">$</span>
-          <span class="amount">0</span>
-          <span class="period">/month</span>
-        </div>
-        <div class="description">Perfect for individuals and small teams just getting started.</div>
+# Choose Your Plan
+
+<div class="pricing-toggle">
+  <span class="active">Monthly</span>
+  <label class="switch">
+    <input type="checkbox" id="billing-toggle">
+    <span class="slider round"></span>
+  </label>
+  <span>Yearly <span class="save-badge">Save 20%</span></span>
+</div>
+
+<div class="pricing-container">
+  <div class="pricing-plan">
+    <div class="plan-header">
+      <h2>Free</h2>
+      <div class="plan-price">
+        <span>$</span>0
+        <span class="period">/month</span>
       </div>
-      <div class="card-features">
-        <ul>
-          <li>Up to 3 team members</li>
-          <li>5 projects</li>
-          <li>Basic analytics</li>
-          <li>24-hour support response time</li>
-        </ul>
-      </div>
-      <div class="card-action">
-        <a href="#" class="pricing-button">Get Started</a>
-      </div>
+      <p>Perfect for individuals and small teams just getting started</p>
     </div>
-
-    <div class="pricing-card popular">
-      <div class="popular-badge">Most Popular</div>
-      <div class="card-header">
-        <h2>Pro</h2>
-        <div class="price">
-          <span class="currency">$</span>
-          <span class="amount">20</span>
-          <span class="period">/user/month</span>
-        </div>
-        <div class="description">For growing teams that need more power and flexibility.</div>
-      </div>
-      <div class="card-features">
-        <ul>
-          <li>Unlimited team members</li>
-          <li>Unlimited projects</li>
-          <li>Advanced analytics & reporting</li>
-          <li>4-hour support response time</li>
-          <li>Custom integrations</li>
-          <li>API access</li>
-        </ul>
-      </div>
-      <div class="card-action">
-        <a href="#" class="pricing-button primary">Choose Pro</a>
-      </div>
+    <div class="plan-features">
+      <div class="feature">Up to 3 team members</div>
+      <div class="feature">5 projects</div>
+      <div class="feature">Basic analytics</div>
+      <div class="feature">24-hour support</div>
     </div>
-
-    <div class="pricing-card">
-      <div class="card-header">
-        <h2>Enterprise</h2>
-        <div class="price">
-          <span class="contact-sales">Contact Sales</span>
-        </div>
-        <div class="description">For large organizations with specific needs and requirements.</div>
-      </div>
-      <div class="card-features">
-        <ul>
-          <li>Everything in Pro</li>
-          <li>Dedicated account manager</li>
-          <li>Custom SLA</li>
-          <li>1-hour support response time</li>
-          <li>On-premises deployment option</li>
-          <li>24/7 phone support</li>
-          <li>Custom training & onboarding</li>
-        </ul>
-      </div>
-      <div class="card-action">
-        <a href="#" class="pricing-button">Contact Sales</a>
-      </div>
+    <div class="plan-action">
+      <a href="#" class="plan-button">Get Started</a>
     </div>
   </div>
 
-  <div class="pricing-faq">
-    <h2>よくある質問</h2>
-    <div class="faq-grid">
-      <div class="faq-item">
-        <h3>プランはいつでも変更できますか？</h3>
-        <p>はい、いつでもプランをアップグレードまたはダウングレードできます。変更は即時に反映され、料金は日割りで計算されます。</p>
+  <div class="pricing-plan popular">
+    <div class="popular-tag">Most Popular</div>
+    <div class="plan-header">
+      <h2>Pro</h2>
+      <div class="plan-price">
+        <span>$</span>20
+        <span class="period">/user/month</span>
       </div>
-      <div class="faq-item">
-        <h3>支払い方法はどのようなものがありますか？</h3>
-        <p>クレジットカード、銀行振込、PayPalなど、様々な支払い方法に対応しています。Enterprise プランでは請求書払いも可能です。</p>
+      <p>For growing teams that need more power and flexibility</p>
+    </div>
+    <div class="plan-features">
+      <div class="feature">Unlimited team members</div>
+      <div class="feature">Unlimited projects</div>
+      <div class="feature">Advanced analytics & reporting</div>
+      <div class="feature">4-hour support response time</div>
+      <div class="feature">Custom integrations</div>
+      <div class="feature">API access</div>
+    </div>
+    <div class="plan-action">
+      <a href="#" class="plan-button primary">Choose Pro</a>
+    </div>
+  </div>
+
+  <div class="pricing-plan">
+    <div class="plan-header">
+      <h2>Enterprise</h2>
+      <div class="plan-price enterprise">
+        Contact Sales
       </div>
-      <div class="faq-item">
-        <h3>無料トライアルはありますか？</h3>
-        <p>Pro プランには14日間の無料トライアルがあります。クレジットカード情報なしで開始でき、トライアル期間中にいつでもキャンセル可能です。</p>
-      </div>
-      <div class="faq-item">
-        <h3>返金ポリシーはどうなっていますか？</h3>
-        <p>30日間の返金保証を提供しています。サービスにご満足いただけない場合は、購入から30日以内に全額返金いたします。</p>
-      </div>
+      <p>For large organizations with specific needs and requirements</p>
+    </div>
+    <div class="plan-features">
+      <div class="feature">Everything in Pro</div>
+      <div class="feature">Dedicated account manager</div>
+      <div class="feature">Custom SLA</div>
+      <div class="feature">1-hour support response</div>
+      <div class="feature">On-premises deployment</div>
+      <div class="feature">24/7 phone support</div>
+      <div class="feature">Custom training</div>
+    </div>
+    <div class="plan-action">
+      <a href="#" class="plan-button">Contact Sales</a>
     </div>
   </div>
 </div>
 
+## Frequently Asked Questions
+
+<div class="faq-section">
+  <div class="faq-item">
+    <h3>Can I change plans at any time?</h3>
+    <p>Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately and are prorated for your billing period.</p>
+  </div>
+  <div class="faq-item">
+    <h3>What payment methods do you accept?</h3>
+    <p>We accept credit cards, bank transfers, and PayPal. For Enterprise plans, we also offer invoice billing.</p>
+  </div>
+  <div class="faq-item">
+    <h3>Is there a free trial?</h3>
+    <p>The Pro plan comes with a 14-day free trial. You can start without a credit card and cancel anytime during the trial period.</p>
+  </div>
+  <div class="faq-item">
+    <h3>What's your refund policy?</h3>
+    <p>We offer a 30-day money-back guarantee. If you're not satisfied with our service, we'll refund your payment in full within 30 days of purchase.</p>
+  </div>
+</div>
+
+</div>
+
 <style>
 /* Modern Pricing Layout */
-.pricing-container {
+.pricing-section {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
   color: var(--vp-c-text-1);
 }
 
-.pricing-container h1 {
+.pricing-section h1 {
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
@@ -145,19 +137,12 @@ hero:
   background-clip: text;
 }
 
-.pricing-subtitle {
-  text-align: center;
-  font-size: 1.1rem;
-  color: var(--vp-c-text-2);
-  margin-bottom: 2.5rem;
-}
-
 /* Pricing toggle switch */
 .pricing-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 3rem;
+  margin: 2rem 0 3rem;
   font-weight: 500;
 }
 
@@ -231,39 +216,42 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* Pricing Grid */
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+/* Pricing Container */
+.pricing-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2rem;
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
 }
 
-/* Pricing Cards */
-.pricing-card {
+/* Pricing Plans */
+.pricing-plan {
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
   background: var(--vp-c-bg-soft);
   border-radius: 16px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  border: 1px solid var(--vp-c-divider);
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--vp-c-divider);
-  height: 100%;
 }
 
-.pricing-card:hover {
+.pricing-plan:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
   z-index: 1;
 }
 
-.pricing-card.popular {
+.pricing-plan.popular {
   border: 2px solid var(--vp-c-brand-1);
   z-index: 2;
 }
 
-.popular-badge {
+.popular-tag {
   position: absolute;
   top: 0;
   right: 0;
@@ -276,21 +264,23 @@ input:checked + .slider:before {
   z-index: 3;
 }
 
-.card-header {
+.plan-header {
   padding: 1.5rem;
   text-align: center;
   border-bottom: 1px solid var(--vp-c-divider);
   background: linear-gradient(180deg, var(--vp-c-bg) 0%, var(--vp-c-bg-soft) 100%);
 }
 
-.card-header h2 {
+.plan-header h2 {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: var(--vp-c-text-1);
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
-.price {
+.plan-price {
   font-size: 3rem;
   font-weight: 700;
   line-height: 1;
@@ -301,13 +291,13 @@ input:checked + .slider:before {
   justify-content: center;
 }
 
-.currency {
+.plan-price span {
   font-size: 1.5rem;
   margin-top: 0.5rem;
   margin-right: 4px;
 }
 
-.period {
+.plan-price .period {
   font-size: 1rem;
   color: var(--vp-c-text-2);
   font-weight: 400;
@@ -315,37 +305,33 @@ input:checked + .slider:before {
   margin-left: 4px;
 }
 
-.contact-sales {
+.plan-price.enterprise {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--vp-c-text-1);
+  display: block;
+  padding-top: 1rem;
 }
 
-.description {
+.plan-header p {
   font-size: 0.9rem;
   color: var(--vp-c-text-2);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
   min-height: 2.5rem;
 }
 
-.card-features {
+.plan-features {
   padding: 1.5rem;
   flex: 1;
 }
 
-.card-features ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.card-features li {
+.feature {
   padding: 0.5rem 0 0.5rem 1.5rem;
   position: relative;
   font-size: 0.95rem;
 }
 
-.card-features li::before {
+.feature::before {
   content: "✓";
   position: absolute;
   left: 0;
@@ -353,14 +339,14 @@ input:checked + .slider:before {
   font-weight: bold;
 }
 
-.card-action {
+.plan-action {
   padding: 1.5rem;
   text-align: center;
   border-top: 1px solid var(--vp-c-divider);
   background: linear-gradient(0deg, var(--vp-c-bg) 0%, var(--vp-c-bg-soft) 100%);
 }
 
-.pricing-button {
+.plan-button {
   display: inline-block;
   padding: 0.8rem 2rem;
   font-size: 1rem;
@@ -375,37 +361,33 @@ input:checked + .slider:before {
   width: 100%;
 }
 
-.pricing-button:hover {
+.plan-button:hover {
   background-color: var(--vp-c-brand-soft);
 }
 
-.pricing-button.primary {
+.plan-button.primary {
   background: linear-gradient(90deg, var(--vp-c-brand-1), var(--vp-c-brand-2));
   color: white;
   border: none;
 }
 
-.pricing-button.primary:hover {
+.plan-button.primary:hover {
   box-shadow: 0 4px 12px rgba(var(--vp-c-brand-1-rgb), 0.4);
 }
 
 /* FAQ Section */
-.pricing-faq {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.pricing-faq h2 {
+.pricing-section h2 {
   text-align: center;
   font-size: 2rem;
-  margin-bottom: 2rem;
+  margin: 4rem 0 2rem;
   color: var(--vp-c-text-1);
 }
 
-.faq-grid {
+.faq-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .faq-item {
@@ -420,6 +402,8 @@ input:checked + .slider:before {
   font-weight: 600;
   margin-bottom: 0.75rem;
   color: var(--vp-c-text-1);
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .faq-item p {
@@ -430,20 +414,30 @@ input:checked + .slider:before {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .pricing-grid {
+  .pricing-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pricing-plan {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .faq-section {
     grid-template-columns: 1fr;
   }
   
-  .faq-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .pricing-container h1 {
+  .pricing-section h1 {
     font-size: 2rem;
   }
 }
 
-/* Hide default home elements */
+/* Hide default elements we don't need */
+.VPHome .VPHero .container {
+  margin-bottom: 0 !important;
+}
+
 .VPContent .VPHome {
   padding-bottom: 0 !important;
 }
