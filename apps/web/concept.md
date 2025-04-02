@@ -2,63 +2,63 @@
 outline: deep
 ---
 
-# AI駆動開発を安全に推進するためのプラットフォーム
+# A Platform for Safely Promoting AI-Driven Development
 
-## はじめに
+## Introduction
 
-近年、AIを活用した開発手法が急速に普及しています。特に「Vibe Coding」のような手法では、開発者がAIに大まかな指示を出し、AIがコードを生成するという新しい開発パラダイムが生まれています。このAI駆動開発は、従来の開発手法と比較して圧倒的な生産性向上をもたらす一方で、AIが間違いを犯す可能性も否定できません。ai-schemaは、そのようなAI駆動開発を安全かつ効率的に推進するためのガードレールとスキーマ定義を提供するプラットフォームです。
+In recent years, development methods utilizing AI have rapidly proliferated. Particularly with techniques like "Vibe Coding," a new development paradigm is emerging where developers give high-level instructions to AI, and AI generates the code. While this AI-driven development offers overwhelming productivity gains compared to traditional methods, the possibility of AI making mistakes cannot be denied. ai-schema is a platform that provides guardrails and schema definitions to safely and efficiently promote such AI-driven development.
 
-## ai-schemaとは
+## What is ai-schema?
 
-ai-schemaは、AI駆動開発を安全に推進するためのガードレールとスキーマ定義を提供するプラットフォームです。特にフロントエンド開発において、AIが間違いを犯しても安全性を担保し、開発者とAIのコラボレーションを促進します。
+ai-schema is a platform that provides guardrails and schema definitions to safely promote AI-driven development. Especially in front-end development, it ensures safety even if AI makes mistakes and promotes collaboration between developers and AI.
 
-::: tip ポイント
-**AIの間違いを許容しつつ、安全性を担保する。** AI駆動開発では、AIが少々の間違いを犯しても、全体としての生産性向上が重要です。特にUI領域では、厳密な正確性よりも迅速な開発が求められることが多いため、ai-schemaはAIの間違いを許容しつつも、重大な問題を防ぐガードレールを提供します。
+::: tip Key Point
+**Tolerate AI mistakes while ensuring safety.** In AI-driven development, overall productivity improvement is crucial, even if AI makes minor mistakes. Particularly in the UI domain, where rapid development is often prioritized over strict accuracy, ai-schema provides guardrails to prevent critical issues while tolerating minor AI errors.
 :::
 
-## AI駆動開発におけるガードレールの重要性
+## The Importance of Guardrails in AI-Driven Development
 
-AI駆動開発、特にフロントエンド領域において、ガードレールが重要である理由は以下の通りです：
+Guardrails are crucial in AI-driven development, especially in the front-end domain, for the following reasons:
 
-### AIの間違いを許容しつつ安全性を確保
+### Ensuring Safety While Tolerating AI Mistakes
 
-AIは非常に強力なツールですが、完璧ではありません。特にUI領域では、少々の不具合があっても全体としての開発速度が向上することが重要です。ai-schemaは、AIが間違いを犯しても、それが重大な問題につながらないようにガードレールを提供します。
+AI is a powerful tool, but it's not perfect. Especially in the UI domain, improving overall development speed is often more important than minor imperfections. ai-schema provides guardrails to ensure that even if AI makes mistakes, they don't lead to critical problems.
 
-::: info 許容できる間違いとは
-UIの見た目の微妙なずれ、非クリティカルな機能の一時的な不具合など、ユーザー体験に大きな影響を与えない問題は許容できます。一方、データ損失、セキュリティ脆弱性、クリティカルな機能の障害などは防ぐ必要があります。
+::: info What are acceptable mistakes?
+Minor visual discrepancies in the UI, temporary non-critical feature glitches, etc., that don't significantly impact the user experience can be tolerated. On the other hand, data loss, security vulnerabilities, and critical feature failures must be prevented.
 :::
 
-### スキーマ定義によるガイダンス
+### Guidance Through Schema Definitions
 
-AIに適切なガイダンスを提供することで、AIの出力品質を向上させることができます。ai-schemaは、GraphQLスキーマやOpenAPIなどの標準的なスキーマ定義を活用し、AIに明確なガイドラインを提供します。
+Providing appropriate guidance to AI can improve the quality of its output. ai-schema utilizes standard schema definitions like GraphQL schemas and OpenAPI to provide clear guidelines to AI.
 
-### バックエンドサービスとの連携
+### Integration with Backend Services
 
-フロントエンド開発では、バックエンドサービスとの連携が不可欠です。ai-schemaは、GraphQLやOpenAI APIなどのバックエンドサービスと連携し、フロントエンドとバックエンドの整合性を確保します。
+In front-end development, integration with backend services is essential. ai-schema integrates with backend services like GraphQL and OpenAI API to ensure consistency between the front-end and backend.
 
-::: warning 注意点
-スキーマ定義は開発の初期段階で十分に検討する必要があります。不適切なスキーマ定義は、後の開発段階で大きな問題を引き起こす可能性があります。
+::: warning Caution
+Schema definitions need thorough consideration in the early stages of development. Inappropriate schema definitions can cause significant problems later in the development process.
 :::
 
-## 従来の開発手法とAI駆動開発の比較
+## Comparison of Traditional and AI-Driven Development
 
-従来の開発手法とAI駆動開発を比較すると、以下のような違いがあります：
+Comparing traditional development methods with AI-driven development reveals the following differences:
 
-| 側面 | 従来の開発手法 | AI駆動開発 |
+| Aspect | Traditional Development | AI-Driven Development |
 |------|------------|---------|
-| 開発速度 | 開発者のスキルと経験に依存 | AIの支援により大幅に向上 |
-| 品質管理 | 厳格なテストとレビュー | ガードレールとスキーマ定義による安全性確保 |
-| 柔軟性 | 変更に対応するのに時間がかかる | 迅速な変更と適応が可能 |
-| 学習曲線 | 新技術の習得に時間がかかる | AIの支援により短縮 |
-| エラー処理 | エラーを防ぐことに注力 | エラーを許容しつつ安全性を確保 |
+| Development Speed | Depends on developer skill and experience | Significantly improved with AI assistance |
+| Quality Management | Strict testing and reviews | Safety ensured by guardrails and schema definitions |
+| Flexibility | Takes time to respond to changes | Rapid changes and adaptation possible |
+| Learning Curve | Takes time to learn new technologies | Shortened with AI assistance |
+| Error Handling | Focuses on preventing errors | Tolerates errors while ensuring safety |
 
-## GraphQLとOpenAIによるガードレール
+## Guardrails with GraphQL and OpenAI
 
-ai-schemaでは、GraphQLとOpenAI APIを活用したガードレールを提供します：
+ai-schema provides guardrails utilizing GraphQL and the OpenAI API:
 
-### GraphQLスキーマによるガードレール
+### Guardrails with GraphQL Schema
 
-GraphQLスキーマは、フロントエンドとバックエンドの間のインターフェースを明確に定義します。これにより、AIが生成するコードが常にバックエンドと互換性を持つことを保証します。
+GraphQL schemas clearly define the interface between the front-end and backend. This ensures that the code generated by AI is always compatible with the backend.
 
 ```graphql
 type User {
@@ -86,11 +86,11 @@ type Mutation {
 }
 ```
 
-### OpenAI APIによるガードレール
+### Guardrails with OpenAI API
 
-OpenAI APIを活用することで、ユーザー入力の検証やコンテンツの生成を安全に行うことができます。ai-schemaは、OpenAI APIとの連携を簡単に実現するためのインターフェースを提供します。
+Utilizing the OpenAI API allows for safe validation of user input and content generation. ai-schema provides an interface to easily integrate with the OpenAI API.
 
-::: info OpenAI APIの活用例
+::: info Example of OpenAI API Usage
 ```typescript
 import { OpenAI } from 'openai';
 
@@ -98,13 +98,13 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// ユーザー入力の検証
+// Validate user input
 async function validateUserInput(input: string): Promise<boolean> {
   const response = await openai.chat.completions.create({
     model: 'gpt-4',
     messages: [
-      { role: 'system', content: 'あなたはユーザー入力を検証するアシスタントです。' },
-      { role: 'user', content: `以下の入力が安全かどうか判断してください: ${input}` }
+      { role: 'system', content: 'You are an assistant that validates user input.' },
+      { role: 'user', content: `Determine if the following input is safe: ${input}` }
     ],
     temperature: 0,
   });
@@ -114,37 +114,37 @@ async function validateUserInput(input: string): Promise<boolean> {
 ```
 :::
 
-## Vibe Codingとai-schema
+## Vibe Coding and ai-schema
 
-Vibe Codingは、開発者がAIに大まかな指示を出し、AIがコードを生成するという新しい開発手法です。ai-schemaは、Vibe Codingを安全かつ効率的に実践するためのガードレールとスキーマ定義を提供します。
+Vibe Coding is a new development method where developers give high-level instructions to AI, and AI generates the code. ai-schema provides guardrails and schema definitions to practice Vibe Coding safely and efficiently.
 
-### Vibe Codingの特徴
+### Characteristics of Vibe Coding
 
-1. **大まかな指示**: 開発者は詳細な仕様ではなく、大まかな指示をAIに与えます
-2. **反復的な改善**: AIが生成したコードを確認し、フィードバックを与えて改善します
-3. **高速な開発**: 従来の開発手法と比較して、開発速度が大幅に向上します
+1. **High-Level Instructions**: Developers provide high-level instructions to AI instead of detailed specifications.
+2. **Iterative Improvement**: Review the code generated by AI and provide feedback for improvement.
+3. **Rapid Development**: Development speed is significantly improved compared to traditional methods.
 
-### ai-schemaによるVibe Codingの強化
+### Enhancing Vibe Coding with ai-schema
 
-ai-schemaは、以下の方法でVibe Codingを強化します：
+ai-schema enhances Vibe Coding in the following ways:
 
-1. **スキーマ定義によるガイダンス**: AIに明確なガイドラインを提供し、出力品質を向上させます
-2. **ガードレールによる安全性確保**: AIが間違いを犯しても、重大な問題につながらないようにします
-3. **バックエンドサービスとの連携**: フロントエンドとバックエンドの整合性を確保します
+1. **Guidance Through Schema Definitions**: Provides clear guidelines to AI, improving output quality.
+2. **Safety Through Guardrails**: Ensures that even if AI makes mistakes, they don't lead to critical problems.
+3. **Integration with Backend Services**: Ensures consistency between the front-end and backend.
 
-## 実用的なユースケース
+## Practical Use Cases
 
-ai-schemaは、以下のようなユースケースで特に効果を発揮します：
+ai-schema is particularly effective in the following use cases:
 
-### フロントエンド開発の加速
+### Accelerating Front-End Development
 
-AIを活用したフロントエンド開発を加速させるために、ai-schemaはGraphQLスキーマに基づいたUIコンポーネントの自動生成をサポートします。
+To accelerate AI-driven front-end development, ai-schema supports the automatic generation of UI components based on GraphQL schemas.
 
 <div class="vp-code-group">
 <div class="vp-code-group-content">
 
-```typescript [スキーマ定義]
-// GraphQLスキーマ
+```typescript [Schema Definition]
+// GraphQL Schema
 const userSchema = `
   type User {
     id: ID!
@@ -161,21 +161,21 @@ const userSchema = `
 `;
 ```
 
-```typescript [AIへの指示]
-// AIへの指示
+```typescript [Instructions to AI]
+// Instructions to AI
 const prompt = `
-以下のGraphQLスキーマに基づいて、ユーザー編集フォームのReactコンポーネントを作成してください：
+Create a React component for a user edit form based on the following GraphQL schema:
 
 ${userSchema}
 
-- フォームには名前、メール、ロールの入力フィールドを含める
-- バリデーションを実装する
-- 送信ボタンを追加する
+- Include input fields for name, email, and role.
+- Implement validation.
+- Add a submit button.
 `;
 ```
 
-```tsx [生成されたコンポーネント]
-// AIが生成したReactコンポーネント
+```tsx [Generated Component]
+// React component generated by AI
 import React, { useState } from 'react';
 
 type UserRole = 'ADMIN' | 'USER' | 'GUEST';
@@ -206,13 +206,13 @@ export const UserForm: React.FC<UserFormProps> = ({
     const newErrors: Record<string, string> = {};
     
     if (!name.trim()) {
-      newErrors.name = '名前は必須です';
+      newErrors.name = 'Name is required';
     }
     
     if (!email.trim()) {
-      newErrors.email = 'メールアドレスは必須です';
+      newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = '有効なメールアドレスを入力してください';
+      newErrors.email = 'Enter a valid email address';
     }
     
     setErrors(newErrors);
@@ -230,7 +230,7 @@ export const UserForm: React.FC<UserFormProps> = ({
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="name">名前</label>
+        <label htmlFor="name">Name</label>
         <input
           id="name"
           value={name}
@@ -240,7 +240,7 @@ export const UserForm: React.FC<UserFormProps> = ({
       </div>
       
       <div>
-        <label htmlFor="email">メールアドレス</label>
+        <label htmlFor="email">Email</label>
         <input
           id="email"
           type="email"
@@ -251,19 +251,19 @@ export const UserForm: React.FC<UserFormProps> = ({
       </div>
       
       <div>
-        <label htmlFor="role">ロール</label>
+        <label htmlFor="role">Role</label>
         <select
           id="role"
           value={role}
           onChange={(e) => setRole(e.target.value as UserRole)}
         >
-          <option value="ADMIN">管理者</option>
-          <option value="USER">ユーザー</option>
-          <option value="GUEST">ゲスト</option>
+          <option value="ADMIN">Admin</option>
+          <option value="USER">User</option>
+          <option value="GUEST">Guest</option>
         </select>
       </div>
       
-      <button type="submit">送信</button>
+      <button type="submit">Submit</button>
     </form>
   );
 };
@@ -272,27 +272,27 @@ export const UserForm: React.FC<UserFormProps> = ({
 </div>
 </div>
 
-### バックエンドとの整合性確保
+### Ensuring Backend Consistency
 
-GraphQLスキーマを活用することで、フロントエンドとバックエンドの整合性を確保します。ai-schemaは、スキーマの変更を検知し、フロントエンドコードを自動的に更新する機能を提供します。
+Utilizing GraphQL schemas ensures consistency between the front-end and backend. ai-schema provides functionality to detect schema changes and automatically update front-end code.
 
-### ユーザー入力の安全な検証
+### Safe Validation of User Input
 
-OpenAI APIを活用することで、ユーザー入力の安全な検証を実現します。ai-schemaは、OpenAI APIとの連携を簡単に実現するためのインターフェースを提供します。
+Utilizing the OpenAI API enables safe validation of user input. ai-schema provides an interface to easily integrate with the OpenAI API.
 
-## クイックスタート
+## Quick Start
 
-::: tip インストール手順
+::: tip Installation Steps
 ```bash
-# リポジトリのクローン
+# Clone the repository
 git clone https://github.com/ToyB0x/ai-schema.git
 cd ai-schema
 
-# 依存関係のインストールとビルド
+# Install dependencies and build
 pnpm install && pnpm build
 ```
 
-MCPサーバー設定ファイルに追加（パスは実際のインストール先に合わせて変更）：
+Add to MCP server configuration file (adjust the path to your actual installation location):
 ```json
 {
   "mcpServers": {
@@ -307,16 +307,16 @@ MCPサーバー設定ファイルに追加（パスは実際のインストー�
 ```
 :::
 
-## まとめ
+## Summary
 
-ai-schemaは、AI駆動開発を安全かつ効率的に推進するためのガードレールとスキーマ定義を提供するプラットフォームです。特にフロントエンド開発において、AIが間違いを犯しても安全性を担保し、開発者とAIのコラボレーションを促進します。GraphQLやOpenAI APIなどのバックエンドサービスと連携することで、フロントエンドとバックエンドの整合性を確保し、AI駆動開発の効果を最大化します。
+ai-schema is a platform that provides guardrails and schema definitions to safely and efficiently promote AI-driven development. Especially in front-end development, it ensures safety even if AI makes mistakes and promotes collaboration between developers and AI. By integrating with backend services like GraphQL and OpenAI API, it ensures consistency between the front-end and backend and maximizes the effectiveness of AI-driven development.
 
-::: info 今後の展望
-- より高度なAI駆動開発手法のサポート
-- より多様なバックエンドサービスとの連携
-- AIの出力品質向上のための機能拡充
-- コミュニティ主導のスキーマライブラリの構築
-- エンタープライズ向けの高度なセキュリティ機能の追加
+::: info Future Outlook
+- Support for more advanced AI-driven development methods
+- Integration with a wider variety of backend services
+- Enhanced features for improving AI output quality
+- Building a community-driven schema library
+- Adding advanced security features for enterprise use
 
-ai-schemaは、AI駆動開発の未来を切り拓き、開発者とAIのコラボレーションを促進します。
+ai-schema pioneers the future of AI-driven development and promotes collaboration between developers and AI.
 :::

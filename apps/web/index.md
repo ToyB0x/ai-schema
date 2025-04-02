@@ -3,55 +3,55 @@ layout: home
 
 hero:
   name: "ai-schema"
-  text: "AIとのコラボレーションを安全かつ効果的に実現するスキーマ定義プラットフォーム"
-  tagline: "AI駆動開発を加速させるガードレールとスキーマ定義で、フロントエンド開発を革新する"
+  text: "A Schema Definition Platform for Safe and Effective AI Collaboration"
+  tagline: "Innovate front-end development with guardrails and schema definitions that accelerate AI-driven development."
   image:
     src: /logo.svg
     alt: ai-schema Logo
   actions:
     - theme: brand
-      text: はじめる
+      text: Get Started
       link: /concept
     - theme: alt
-      text: GitHub
+      text: View on GitHub
       link: https://github.com/ToyB0x/ai-schema
     - theme: alt
-      text: API例
+      text: API Examples
       link: /api
 
 features:
-  - title: AI駆動開発の促進
-    details: Vibe Codingなどの手法を活用し、AIとのコラボレーションによる開発プロセスを加速します。
+  - title: Promote AI-Driven Development
+    details: Accelerate the development process through collaboration with AI, utilizing methods like Vibe Coding.
     icon: 🚀
-  - title: フロントエンド特化
-    details: UI領域でのAI駆動開発を特に強化し、少々の不都合があっても大きな効果を発揮します。
+  - title: Front-End Focused
+    details: Particularly enhances AI-driven development in the UI domain, delivering significant results even with minor imperfections.
     icon: 🎨
-  - title: 安全なガードレール
-    details: AIが間違いを犯しても安全を担保する仕組みを提供し、開発リスクを最小限に抑えます。
+  - title: Safe Guardrails
+    details: Provides mechanisms to ensure safety even if AI makes mistakes, minimizing development risks.
     icon: 🛡️
-  - title: GraphQL統合
-    details: バックエンドサービスとのシームレスな連携により、堅牢なスキーマ定義とガードレールを実現します。
+  - title: GraphQL Integration
+    details: Achieves robust schema definitions and guardrails through seamless integration with backend services.
     icon: 🔌
-  - title: OpenAI連携
-    details: OpenAIのAPIと連携し、AIモデルに適切なガイダンスとスキーマを提供します。
+  - title: OpenAI Integration
+    details: Integrates with OpenAI's API to provide appropriate guidance and schemas to AI models.
     icon: 🤖
-  - title: 人間とAIの共存
-    details: AIにも人間にも優しいインターフェースで、効果的なコラボレーションを実現します。
+  - title: Human-AI Coexistence
+    details: Enables effective collaboration with an interface friendly to both AI and humans.
     icon: 🤝
 
 footer: MIT Licensed | Copyright © 2025 ai-schema Contributors
 ---
 
-# AI駆動開発の未来を切り拓く
+# Pioneering the Future of AI-Driven Development
 
-ai-schemaは、AI駆動開発を安全かつ効率的に推進するためのガードレールとスキーマ定義を提供するプラットフォームです。特にフロントエンド開発において、AIが間違いを犯しても安全性を担保し、開発者とAIのコラボレーションを促進します。
+ai-schema is a platform that provides guardrails and schema definitions to safely and efficiently promote AI-driven development. Especially in front-end development, it ensures safety even if AI makes mistakes and promotes collaboration between developers and AI.
 
-## 概要
+## Overview
 
-今後のITビジネスでは、Vibe Codingなどの手法によるAI駆動開発が欠かせません。特にUI領域では、AIによる開発が少々の不都合があっても大きな効果を発揮します。ai-schemaは、そのようなAI駆動開発を安全に推進するためのガードレールとスキーマ定義を提供します。
+In the future of IT business, AI-driven development using methods like Vibe Coding is indispensable. Particularly in the UI domain, AI-driven development can yield significant results even with minor imperfections. ai-schema provides the guardrails and schema definitions to safely promote such AI-driven development.
 
 ```bash
-# クイックインストール
+# Quick Installation
 git clone https://github.com/ToyB0x/ai-schema.git
 cd ai-schema
 pnpm install && pnpm build
@@ -59,7 +59,7 @@ pnpm install && pnpm build
 
 ::: code-group
 
-```json [設定]
+```json [Configuration]
 {
   "mcpServers": {
     "@ai-schema/mcp": {
@@ -74,16 +74,16 @@ pnpm install && pnpm build
 }
 ```
 
-```markdown [使用例]
-AIアシスタントへの指示：
+```markdown [Usage Example]
+Instructions for AI Assistant:
 
-- GraphQLスキーマに基づいたUIコンポーネントを生成してください
-- スキーマ定義に従って、フォームのバリデーションを実装してください
-- OpenAIのAPIを使用して、ユーザー入力を検証してください
+- Generate UI components based on the GraphQL schema.
+- Implement form validation according to the schema definition.
+- Validate user input using the OpenAI API.
 ```
 
-```typescript [スキーマ例]
-// GraphQLスキーマ定義
+```typescript [Schema Example]
+// GraphQL Schema Definition
 const userSchema = `
   type User {
     id: ID!
@@ -99,7 +99,7 @@ const userSchema = `
   }
 `;
 
-// このスキーマに基づいてAIがUIコンポーネントを生成
+// AI generates UI components based on this schema
 ```
 
 :::

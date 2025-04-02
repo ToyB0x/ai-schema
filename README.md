@@ -1,24 +1,24 @@
 # ai-schema
-AIとのコラボレーションを安全かつ効果的に実現するスキーマ定義プラットフォーム
+A Schema Definition Platform for Safe and Effective AI Collaboration
 
-## 概要
-ai-schemaは、AI駆動開発を安全かつ効率的に推進するためのガードレールとスキーマ定義を提供するプラットフォームです。特にフロントエンド開発において、AIが間違いを犯しても安全性を担保し、開発者とAIのコラボレーションを促進します。
+## Overview
+ai-schema is a platform that provides guardrails and schema definitions to safely and efficiently promote AI-driven development. Especially in front-end development, it ensures safety even if AI makes mistakes and promotes collaboration between developers and AI.
 
-## 特徴
-- **AIフレンドリーなスキーマ定義**: AIが理解しやすく、活用できるスキーマ定義を提供
-- **GraphQLとの統合**: バックエンドサービスとのシームレスな連携によるガードレール機能
-- **柔軟なルールシステム**: プロジェクトや組織に合わせたカスタマイズ可能なルール
-- **Vibe Coding対応**: 最新のAI駆動開発手法に対応したスキーマとガイドライン
+## Features
+- **AI-Friendly Schema Definition**: Provides schema definitions that are easy for AI to understand and utilize.
+- **GraphQL Integration**: Guardrail functionality through seamless integration with backend services.
+- **Flexible Rule System**: Customizable rules tailored to projects and organizations.
+- **Vibe Coding Support**: Schemas and guidelines compatible with the latest AI-driven development methods.
 
-## インストール
+## Installation
 ```bash
 git clone https://github.com/ToyB0x/ai-schema.git
 cd ai-schema
 pnpm install && pnpm build
 ```
 
-## ドキュメント
-詳細なドキュメントは[公式サイト](https://ai-schema.example.com)を参照してください。
+## Documentation
+Refer to the [official website](https://ai-schema.example.com) for detailed documentation.
 
-## ライセンス
+## License
 MIT
