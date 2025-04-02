@@ -3,55 +3,55 @@ layout: home
 
 hero:
   name: "ai-schema"
-  text: "Teach AI Your Documentation Standards, Not the Other Way Around"
-  tagline: "Write once, enforce everywhere. Define your rules and watch AI conform to your standards."
+  text: "AIとのコラボレーションを安全かつ効果的に実現するスキーマ定義プラットフォーム"
+  tagline: "AI駆動開発を加速させるガードレールとスキーマ定義で、フロントエンド開発を革新する"
   image:
     src: /logo.svg
     alt: ai-schema Logo
   actions:
     - theme: brand
-      text: Get Started
+      text: はじめる
       link: /concept
     - theme: alt
-      text: View on GitHub
+      text: GitHub
       link: https://github.com/ToyB0x/ai-schema
     - theme: alt
-      text: API Examples
+      text: API例
       link: /api
 
 features:
-  - title: Rule-Based Linting
-    details: Lint documents against specified rules with customizable standards that reflect your organization's voice and structure.
-    icon: 🔍
-  - title: Auto-Fix Capability
-    details: Automatically fix linting errors and ensure consistent documentation across your entire project.
-    icon: 🔧
-  - title: Flexible Rule System
-    details: Create, share, and extend rules with a hierarchical system that respects rule priority and resolves conflicts.
-    icon: 🧩
-  - title: MCP Server Integration
-    details: Seamless integration with AI tools through Model Context Protocol servers for enhanced capabilities.
+  - title: AI駆動開発の促進
+    details: Vibe Codingなどの手法を活用し、AIとのコラボレーションによる開発プロセスを加速します。
+    icon: 🚀
+  - title: フロントエンド特化
+    details: UI領域でのAI駆動開発を特に強化し、少々の不都合があっても大きな効果を発揮します。
+    icon: 🎨
+  - title: 安全なガードレール
+    details: AIが間違いを犯しても安全を担保する仕組みを提供し、開発リスクを最小限に抑えます。
+    icon: 🛡️
+  - title: GraphQL統合
+    details: バックエンドサービスとのシームレスな連携により、堅牢なスキーマ定義とガードレールを実現します。
     icon: 🔌
-  - title: Remote Rules
-    details: Load rules from local files or remote repositories to maintain consistent standards across teams.
-    icon: 🌐
-  - title: Performance Optimization
-    details: Rule packing and caching for improved performance, making documentation linting efficient at scale.
-    icon: ⚡
+  - title: OpenAI連携
+    details: OpenAIのAPIと連携し、AIモデルに適切なガイダンスとスキーマを提供します。
+    icon: 🤖
+  - title: 人間とAIの共存
+    details: AIにも人間にも優しいインターフェースで、効果的なコラボレーションを実現します。
+    icon: 🤝
 
 footer: MIT Licensed | Copyright © 2025 ai-schema Contributors
 ---
 
-# The Future of Documentation is Rule-Driven
+# AI駆動開発の未来を切り拓く
 
-ai-schema bridges the gap between AI capabilities and human documentation standards. Instead of adapting to how AI writes, define your rules and watch AI conform to your standards.
+ai-schemaは、AI駆動開発を安全かつ効率的に推進するためのガードレールとスキーマ定義を提供するプラットフォームです。特にフロントエンド開発において、AIが間違いを犯しても安全性を担保し、開発者とAIのコラボレーションを促進します。
 
-## Overview
+## 概要
 
-ai-schema is an experimental project exploring AI capabilities for document linting. It provides a flexible framework for defining and enforcing documentation standards through a rule-based system. The tool integrates with AI platforms like Cline and other AI coding tools via MCP (Model Context Protocol) servers.
+今後のITビジネスでは、Vibe Codingなどの手法によるAI駆動開発が欠かせません。特にUI領域では、AIによる開発が少々の不都合があっても大きな効果を発揮します。ai-schemaは、そのようなAI駆動開発を安全に推進するためのガードレールとスキーマ定義を提供します。
 
 ```bash
-# Quick installation
+# クイックインストール
 git clone https://github.com/ToyB0x/ai-schema.git
 cd ai-schema
 pnpm install && pnpm build
@@ -59,7 +59,7 @@ pnpm install && pnpm build
 
 ::: code-group
 
-```json [Configuration]
+```json [設定]
 {
   "mcpServers": {
     "@ai-schema/mcp": {
@@ -74,23 +74,32 @@ pnpm install && pnpm build
 }
 ```
 
-```markdown [Usage]
-You (AI assistants like Cline or Roo Code) must follow these important rules:
+```markdown [使用例]
+AIアシスタントへの指示：
 
-- Verify that the MCP Server @ai-schema/mcp is properly set up
-- If not set up correctly, inform the user "The @ai-schema/mcp configuration is incorrect" and halt all subsequent processing
-- If set up correctly, execute @ai-schema/mcp's load-remote-act-rule and apply the following rules
+- GraphQLスキーマに基づいたUIコンポーネントを生成してください
+- スキーマ定義に従って、フォームのバリデーションを実装してください
+- OpenAIのAPIを使用して、ユーザー入力を検証してください
 ```
 
-```markdown [Rules]
-# Technical Term Consistency Rule
+```typescript [スキーマ例]
+// GraphQLスキーマ定義
+const userSchema = `
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    role: UserRole!
+  }
+  
+  enum UserRole {
+    ADMIN
+    USER
+    GUEST
+  }
+`;
 
-## Purpose
-- Ensure consistent use of technical terms
-- Prevent confusion from terminology variations
-
-## Rule
-Technical terms must be used consistently throughout the document.
+// このスキーマに基づいてAIがUIコンポーネントを生成
 ```
 
 :::
