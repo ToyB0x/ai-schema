@@ -8,21 +8,11 @@ importers:
 
   .:
     devDependencies:
-      prettier:
-        specifier: ^3.5.3
-        version: 3.5.3
       turbo:
-        specifier: ^2.4.4
+        specifier: 2.4.4
         version: 2.4.4
-      typescript:
-        specifier: 5.8.2
-        version: 5.8.2
 
 packages:
-
-  prettier@3.5.3:
-    resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
-    engines: {node: '>=14'}
 
   turbo-darwin-64@2.4.4:
     resolution: {integrity: sha512-5kPvRkLAfmWI0MH96D+/THnDMGXlFNmjeqNRj5grLKiry+M9pKj3pRuScddAXPdlxjO5Ptz06UNaOQrrYGTx1g==}
@@ -56,14 +46,9 @@ packages:
 
   turbo@2.4.4:
     resolution: {integrity: sha512-N9FDOVaY3yz0YCOhYIgOGYad7+m2ptvinXygw27WPLQvcZDl3+0Sa77KGVlLSiuPDChOUEnTKE9VJwLSi9BPGQ==}
-
-  typescript@5.8.2:
-    resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
-    engines: {node: '>=14.17'}
+    hasBin: true
 
 snapshots:
-
-  prettier@3.5.3: {}
 
   turbo-darwin-64@2.4.4:
     optional: true
@@ -91,5 +76,3 @@ snapshots:
       turbo-linux-arm64: 2.4.4
       turbo-windows-64: 2.4.4
       turbo-windows-arm64: 2.4.4
-
-  typescript@5.8.2: {}
