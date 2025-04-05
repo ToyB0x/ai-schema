@@ -1,356 +1,202 @@
-# ai-schema Implementation Guide
+# ai-annotation Implementation Guide
 
-This page provides an implementation guide for using ai-schema to safely promote AI-driven development. ai-schema is a platform that provides guardrails and schema definitions to ensure safety even if AI makes mistakes.
+Welcome to the `ai-annotation` implementation guide! This guide will walk you through setting up and using `ai-annotation` to facilitate collaboration between humans and AI directly within your HTML.
 
-## Schema Definition Basics
+## 1. Quick Start: Adding Annotations
 
-ai-schema utilizes schema definitions centered around GraphQL schemas. This provides clear guidelines to AI and ensures consistency between the front-end and backend.
+Getting started with `ai-annotation` is designed to be incredibly simple.
 
-::: info
-Example of Schema Definition:
+### Step 1: Include the Script Tag
 
-```graphql
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  role: UserRole!
-}
+Add the following script tag to the `<head>` or `<body>` of your HTML file. This script enables the core annotation functionality in the browser.
 
-enum UserRole {
-  ADMIN
-  USER
-  GUEST
-}
-
-type Query {
-  user(id: ID!): User
-  users: [User!]!
-}
-
-type Mutation {
-  createUser(name: String!, email: String!, role: UserRole!): User!
-  updateUser(id: ID!, name: String, email: String, role: UserRole): User!
-  deleteUser(id: ID!): Boolean!
-}
+```html
+<script src="https://cdn.example.com/ai-annotation.js" defer></script>
+<!-- Replace with the actual script URL when available -->
 ```
 
-This schema definition allows AI to accurately grasp the necessary fields and type information when implementing user-related features.
-:::
+### Step 2: Add Your First Annotation
 
-## Setting Up Guardrails
+Add the `data-ai-annotation` attribute to any HTML element you want to annotate.
 
-ai-schema allows you to set up guardrails to ensure safety even if AI makes mistakes. Guardrails consist of the following elements:
+```html
+<body>
+  <h1>Welcome to Our App</h1>
 
-::: tip
-Guardrails are mechanisms to prevent critical issues while tolerating AI mistakes.
-:::
+  <button data-ai-annotation="Logs the user in after validating credentials.">
+    Login
+  </button>
 
-| Guardrail Element | Description |
-|------------|------|
-| **Validation Rules** | Rules to validate user input or AI output |
-| **Type Checking** | Type checking based on GraphQL schema |
-| **Security Policies** | Security constraints and policies |
-| **Performance Constraints** | Constraints related to performance |
+  <p data-ai-annotation="Displays a welcome message to logged-in users.">
+    Hello, User!
+  </p>
+</body>
+```
 
-## Utilizing GraphQL Schema
+### Step 3: View in Browser
 
-GraphQL schemas clearly define the interface between the front-end and backend. ai-schema utilizes GraphQL schemas to achieve the following functionalities:
+Open your HTML file in a web browser. Now, when you hover your mouse over the "Login" button or the paragraph, their respective annotations should appear (e.g., as a tooltip).
 
-### Type-Safe Queries and Mutations
+## 2. Writing Effective Annotations
 
-```typescript{1,6-7}
-// Example of GraphQL Query
-const GET_USER = gql`
-  query GetUser($id: ID!) {
-    user(id: $id) {
-      id
-      name  # Highlight: Field defined in the schema
-      email  # Highlight: Field defined in the schema
-      role
+Annotations serve as a communication bridge. Make them clear and informative for both humans and AI.
+
+### Simple Text Annotations
+
+For straightforward descriptions, a simple string is sufficient:
+
+```html
+<img src="logo.png" alt="Company Logo" data-ai-annotation="The official company logo.">
+```
+
+### Structured JSON Annotations
+
+For more complex information, use a JSON string within the attribute. This allows for richer, queryable data.
+
+```html
+<input
+  type="password"
+  id="password"
+  data-ai-annotation='{
+    "description": "User password input field.",
+    "validation_rules": ["min_length: 8", "requires_special_char"],
+    "security_level": "high",
+    "related_component": "login-form"
+  }'
+/>
+```
+
+**Common JSON Fields:**
+
+*   `description`: (String) What the element is or does.
+*   `purpose`: (String) The goal or user task associated with the element.
+*   `state`: (String) Current visual or functional state (e.g., "disabled", "active", "error").
+*   `expected_input`: (String) For input fields, describe the expected data format or constraints.
+*   `test_id`: (String) Identifier for automated testing frameworks.
+*   `accessibility_notes`: (String) Information related to ARIA attributes or keyboard navigation.
+*   `responsible_team`: (String) Which team owns this component.
+
+Choose fields that provide the most value for your specific collaboration needs.
+
+## 3. Browser Interaction
+
+The included script provides basic browser interaction:
+
+*   **Hover to View:** Move your mouse over an annotated element to see its content.
+*   **(Future) Editing:** Future versions may allow direct editing of annotations within the browser via a dedicated UI panel or context menu.
+
+## 4. AI Integration via MCP
+
+The Model Context Protocol (MCP) service allows AI agents to interact with annotations programmatically.
+
+### Setting up the MCP Server
+
+Configure the `ai-annotation` MCP server in your environment (e.g., VSCode `settings.json`).
+
+```json
+{
+  "mcpServers": {
+    "@ai-annotation/mcp": {
+      "command": "node", // Or the command to start the server
+      "args": ["/path/to/ai-annotation-mcp-server/main.js"],
+      "autoApprove": ["readAnnotations"], // Allow reading without prompt
+      "disabled": false
     }
   }
-`;
-
-// Executing the query
-const { data, loading, error } = useQuery(GET_USER, {
-  variables: { id: userId }
-});
-```
-
-### TypeScript Types Auto-Generated from Schema
-
-```typescript
-// Types auto-generated from GraphQL schema
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-}
-
-enum UserRole {
-  ADMIN = 'ADMIN',
-  USER = 'USER',
-  GUEST = 'GUEST'
-}
-
-// Type-safe function
-function formatUserName(user: User): string {
-  return `${user.name} (${user.role.toLowerCase()})`;
 }
 ```
 
-## Utilizing OpenAI API
+### Reading Annotations with MCP
 
-ai-schema utilizes the OpenAI API to safely validate user input and generate content.
+An AI assistant can use the `use_mcp_tool` to fetch annotations:
 
-### Validating User Input
-
-```typescript
-import { OpenAI } from 'openai';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-// Validate user input
-async function validateUserInput(input: string): Promise<boolean> {
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4',
-    messages: [
-      { role: 'system', content: 'You are an assistant that validates user input.' },
-      { role: 'user', content: `Determine if the following input is safe: ${input}` }
-    ],
-    temperature: 0,
-  });
-  
-  return response.choices[0].message.content?.toLowerCase().includes('safe') ?? false;
-}
-```
-
-### Generating Content
-
-```typescript
-// Generate content
-async function generateDescription(product: Product): Promise<string> {
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4',
-    messages: [
-      { role: 'system', content: 'You are an assistant that generates product descriptions.' },
-      { role: 'user', content: `Generate a description for the following product: ${JSON.stringify(product)}` }
-    ],
-    temperature: 0.7,
-  });
-  
-  return response.choices[0].message.content ?? 'No description available';
-}
-```
-
-## Practicing Vibe Coding
-
-Vibe Coding is a new development method where developers give high-level instructions to AI, and AI generates the code. Utilizing ai-schema allows for safe and efficient practice of Vibe Coding.
-
-::: warning
-Vibe Coding is powerful, but without proper guardrails, it can lead to unexpected results.
-:::
-
-### Basic Steps of Vibe Coding
-
-1. **Schema Definition**: Define the system structure using GraphQL schemas, etc.
-2. **High-Level Instructions**: Give high-level instructions to AI.
-3. **Code Generation**: AI generates the code.
-4. **Review and Correction**: Review the generated code and correct it if necessary.
-5. **Iteration**: Repeat steps 2-4 as needed.
-
-### Example of Vibe Coding
-
-::: details Dialogue Example
-```
-Developer: Create a user edit form based on the GraphQL schema.
-
-AI: Schema information confirmed. Generating the following React component:
-
-import React, { useState } from 'react';
-
-type UserRole = 'ADMIN' | 'USER' | 'GUEST';
-
-interface UserFormProps {
-  onSubmit: (user: {
-    name: string;
-    email: string;
-    role: UserRole;
-  }) => void;
-  initialValues?: {
-    name?: string;
-    email?: string;
-    role?: UserRole;
-  };
-}
-
-export const UserForm: React.FC<UserFormProps> = ({
-  onSubmit,
-  initialValues = {}
-}) => {
-  const [name, setName] = useState(initialValues.name || '');
-  const [email, setEmail] = useState(initialValues.email || '');
-  const [role, setRole] = useState<UserRole>(initialValues.role || 'USER');
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  // Validation function
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-    
-    if (!name.trim()) {
-      newErrors.name = 'Name is required';
+```xml
+<use_mcp_tool>
+  <server_name>@ai-annotation/mcp</server_name>
+  <tool_name>readAnnotations</tool_name>
+  <arguments>
+    {
+      "url": "http://localhost:8080/my-page.html",
+      "selector": "#password" // CSS selector for the target element
     }
-    
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Enter a valid email address';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // Form submission handler
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (validate()) {
-      onSubmit({ name, email, role });
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        {errors.name && <p className="error">{errors.name}</p>}
-      </div>
-      
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {errors.email && <p className="error">{errors.email}</p>}
-      </div>
-      
-      <div>
-        <label htmlFor="role">Role</label>
-        <select
-          id="role"
-          value={role}
-          onChange={(e) => setRole(e.target.value as UserRole)}
-        >
-          <option value="ADMIN">Admin</option>
-          <option value="USER">User</option>
-          <option value="GUEST">Guest</option>
-        </select>
-      </div>
-      
-      <button type="submit">Submit</button>
-    </form>
-  );
-};
+  </arguments>
+</use_mcp_tool>
 ```
-:::
 
-## Creating Custom Guardrails
+**Expected Result (Example):**
 
-ai-schema allows you to create custom guardrails tailored to your project or organization. Custom guardrails can be defined with the following structure:
+```json
+{
+  "selector": "#password",
+  "annotation": {
+    "description": "User password input field.",
+    "validation_rules": ["min_length: 8", "requires_special_char"],
+    "security_level": "high",
+    "related_component": "login-form"
+  }
+}
+```
 
-```typescript
-// Definition of a custom guardrail
-import { GuardRail, ValidationResult } from '@ai-schema/core';
+### Updating Annotations with MCP (Example)
 
-export class UserInputGuardRail implements GuardRail {
-  id = 'user-input';
-  
-  validate(input: string): ValidationResult {
-    const violations: string[] = [];
-    
-    // Check if input is not empty
-    if (!input.trim()) {
-      violations.push('Input is empty');
-    }
-    
-    // Check if input is not too long
-    if (input.length > 1000) {
-      violations.push('Input is too long (max 1000 characters)');
-    }
-    
-    // Check if forbidden words are included
-    const forbiddenWords = ['password', 'credit card', 'secret'];
-    for (const word of forbiddenWords) {
-      if (input.toLowerCase().includes(word.toLowerCase())) {
-        violations.push(`Forbidden word "${word}" is included`);
+```xml
+<use_mcp_tool>
+  <server_name>@ai-annotation/mcp</server_name>
+  <tool_name>updateAnnotation</tool_name>
+  <arguments>
+    {
+      "url": "http://localhost:8080/my-page.html",
+      "selector": "#password",
+      "newAnnotation": {
+        "description": "User password input field. Updated.",
+        "validation_rules": ["min_length: 8", "requires_special_char", "no_common_passwords"],
+        "security_level": "very_high", // Changed
+        "related_component": "login-form"
       }
     }
-    
-    return {
-      valid: violations.length === 0,
-      violations
-    };
+  </arguments>
+</use_mcp_tool>
+```
+
+## 5. Direct DOM Access for AI
+
+AI agents with direct access to the web page's DOM (e.g., browser extensions, Puppeteer scripts) can simply query the `data-ai-annotation` attribute:
+
+```javascript
+// Example using browser's querySelector
+const button = document.querySelector('button');
+const annotationData = button.getAttribute('data-ai-annotation');
+
+if (annotationData) {
+  try {
+    const annotation = JSON.parse(annotationData); // If JSON
+    console.log('Annotation:', annotation);
+  } catch (e) {
+    console.log('Annotation (text):', annotationData); // If plain text
   }
 }
 ```
 
-## Syntax Highlighting
+## 6. Use Case Examples
 
-ai-schema documentation utilizes syntax highlighting in code blocks:
+*   **Instructing a Test Bot:** "Click the button annotated with `test_id: 'SUBMIT_ORDER'`."
+*   **Generating Documentation:** Extract all `description` fields from annotations to build a component reference.
+*   **Accessibility Check:** "Verify that all elements annotated with `role: 'button'` are keyboard accessible."
+*   **Design Review:** "Flag any elements whose `color_token` annotation doesn't match the design system palette."
 
-```typescript{4,8-10}
-// Example of GraphQL client configuration
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+## 7. Customization (Advanced)
 
-const client = new ApolloClient({  // Highlight: Client initialization
-  uri: 'https://api.example.com/graphql',
-  cache: new InMemoryCache(),
-  defaultOptions: {
-    watchQuery: {  // Highlight: Query option configuration
-      fetchPolicy: 'cache-and-network',  // Highlight: Fetch policy configuration
-      errorPolicy: 'all',  // Highlight: Error policy configuration
-    },
-  },
-});
-```
+*(Details on customization options like changing the attribute name or hover style will be added here in future versions.)*
 
-## Utilizing Custom Containers
+## 8. Troubleshooting
 
-ai-schema documentation utilizes custom containers to effectively convey information:
+*   **Annotations not appearing:**
+    *   Ensure the script tag is correctly included and the path is valid.
+    *   Check the browser's developer console for any script errors.
+    *   Verify the `data-ai-annotation` attribute is spelled correctly.
+*   **JSON parsing errors:**
+    *   Ensure the JSON within the attribute is valid (use an online validator). Pay attention to quotes and commas.
 
-::: info
-ai-schema is a powerful tool for safely promoting AI-driven development.
-:::
+---
 
-::: tip
-Use a shared repository to maintain consistent schema definitions across multiple projects.
-:::
-
-::: warning
-Always validate AI output. ai-schema provides guardrails, but the final responsibility lies with the developer.
-:::
-
-::: danger
-Implement appropriate security measures in production environments. User input validation is particularly important.
-:::
-
-::: details How ai-schema Works Internally
-ai-schema integrates with backend services like GraphQL schemas and the OpenAI API to provide guardrails that ensure safety even if AI makes mistakes. It performs type checking based on schema definitions to guarantee that AI output is always compatible with the backend.
-:::
-
-## Further Information
-
-For more details on ai-schema, refer to the [GitHub Repository](https://github.com/ToyB0x/ai-schema).
+This guide provides the basics for implementing `ai-annotation`. As the project evolves, refer back here for updated features and best practices.

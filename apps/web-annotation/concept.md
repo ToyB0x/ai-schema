@@ -2,321 +2,113 @@
 outline: deep
 ---
 
-# A Platform for Safely Promoting AI-Driven Development
+# Collaborative HTML Annotation: Bridging Human and AI Interaction
 
 ## Introduction
 
-In recent years, development methods utilizing AI have rapidly proliferated. Particularly with techniques like "Vibe Coding," a new development paradigm is emerging where developers give high-level instructions to AI, and AI generates the code. While this AI-driven development offers overwhelming productivity gains compared to traditional methods, the possibility of AI making mistakes cannot be denied. ai-schema is a platform that provides guardrails and schema definitions to safely and efficiently promote such AI-driven development.
+`ai-annotation` introduces a novel approach to human-AI collaboration centered around annotating HTML elements directly. In today's AI-driven development landscape, providing clear context about UI components to AI agents is crucial for tasks like automated testing, design generation, and accessibility analysis. However, existing methods often involve separate documentation or complex integrations.
 
-## What is ai-schema?
+`ai-annotation` simplifies this by allowing developers and designers to embed descriptive annotations directly within the HTML structure. By adding just a single script tag, these annotations become interactive in the browser, visible on hover, and accessible to both humans and AI systems via the Model Context Protocol (MCP) or direct DOM access.
 
-ai-schema is a platform that provides guardrails and schema definitions to safely promote AI-driven development. Especially in front-end development, it ensures safety even if AI makes mistakes and promotes collaboration between developers and AI.
+## Why Annotate HTML Directly?
 
-::: tip Key Point
-**Tolerate AI mistakes while ensuring safety.** In AI-driven development, overall productivity improvement is crucial, even if AI makes minor mistakes. Particularly in the UI domain, where rapid development is often prioritized over strict accuracy, ai-schema provides guardrails to prevent critical issues while tolerating minor AI errors.
-:::
+Embedding annotations in HTML offers several advantages:
 
-## The Importance of Guardrails in AI-Driven Development
+*   **Contextual Proximity:** Information about a UI element lives directly with the element itself, making it easy to understand its purpose and intended behavior.
+*   **Single Source of Truth:** Reduces the need for separate documentation that can quickly become outdated. The HTML itself becomes the reference point.
+*   **Seamless Integration:** Fits naturally into existing web development workflows. Annotations can be added during development or design phases.
+*   **Enhanced AI Understanding:** Provides structured, element-specific context that AI agents can readily consume to perform tasks more accurately.
 
-Guardrails are crucial in AI-driven development, especially in the front-end domain, for the following reasons:
+## Core Concepts & Features
 
-### Ensuring Safety While Tolerating AI Mistakes
+### 1. Simple Integration via Script Tag
 
-AI is a powerful tool, but it's not perfect. Especially in the UI domain, improving overall development speed is often more important than minor imperfections. ai-schema provides guardrails to ensure that even if AI makes mistakes, they don't lead to critical problems.
+Getting started is as easy as adding a single line of code to your HTML file.
 
-::: info What are acceptable mistakes?
-Minor visual discrepancies in the UI, temporary non-critical feature glitches, etc., that don't significantly impact the user experience can be tolerated. On the other hand, data loss, security vulnerabilities, and critical feature failures must be prevented.
-:::
-
-### Guidance Through Schema Definitions
-
-Providing appropriate guidance to AI can improve the quality of its output. ai-schema utilizes standard schema definitions like GraphQL schemas and OpenAPI to provide clear guidelines to AI.
-
-### Integration with Backend Services
-
-In front-end development, integration with backend services is essential. ai-schema integrates with backend services like GraphQL and OpenAI API to ensure consistency between the front-end and backend.
-
-::: warning Caution
-Schema definitions need thorough consideration in the early stages of development. Inappropriate schema definitions can cause significant problems later in the development process.
-:::
-
-## Comparison of Traditional and AI-Driven Development
-
-Comparing traditional development methods with AI-driven development reveals the following differences:
-
-| Aspect | Traditional Development | AI-Driven Development |
-|------|------------|---------|
-| Development Speed | Depends on developer skill and experience | Significantly improved with AI assistance |
-| Quality Management | Strict testing and reviews | Safety ensured by guardrails and schema definitions |
-| Flexibility | Takes time to respond to changes | Rapid changes and adaptation possible |
-| Learning Curve | Takes time to learn new technologies | Shortened with AI assistance |
-| Error Handling | Focuses on preventing errors | Tolerates errors while ensuring safety |
-
-## Guardrails with GraphQL and OpenAI
-
-ai-schema provides guardrails utilizing GraphQL and the OpenAI API:
-
-### Guardrails with GraphQL Schema
-
-GraphQL schemas clearly define the interface between the front-end and backend. This ensures that the code generated by AI is always compatible with the backend.
-
-```graphql
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  role: UserRole!
-}
-
-enum UserRole {
-  ADMIN
-  USER
-  GUEST
-}
-
-type Query {
-  user(id: ID!): User
-  users: [User!]!
-}
-
-type Mutation {
-  createUser(name: String!, email: String!, role: UserRole!): User!
-  updateUser(id: ID!, name: String, email: String, role: UserRole): User!
-  deleteUser(id: ID!): Boolean!
-}
+```html
+<script src="https://cdn.example.com/ai-annotation.js" defer></script>
 ```
 
-### Guardrails with OpenAI API
+This script activates the annotation features within the browser environment.
 
-Utilizing the OpenAI API allows for safe validation of user input and content generation. ai-schema provides an interface to easily integrate with the OpenAI API.
+### 2. Inline Annotations
 
-::: info Example of OpenAI API Usage
-```typescript
-import { OpenAI } from 'openai';
+Annotations are added using a simple `data-ai-annotation` attribute (or potentially other configurable methods).
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+```html
+<button
+  data-ai-annotation='{
+    "description": "Submits the user registration form.",
+    "state": "active",
+    "responsible_team": "auth-team",
+    "test_id": "REG-001"
+  }'
+>
+  Register
+</button>
 
-// Validate user input
-async function validateUserInput(input: string): Promise<boolean> {
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4',
-    messages: [
-      { role: 'system', content: 'You are an assistant that validates user input.' },
-      { role: 'user', content: `Determine if the following input is safe: ${input}` }
-    ],
-    temperature: 0,
-  });
-  
-  return response.choices[0].message.content?.toLowerCase().includes('safe') ?? false;
-}
-```
-:::
-
-## Vibe Coding and ai-schema
-
-Vibe Coding is a new development method where developers give high-level instructions to AI, and AI generates the code. ai-schema provides guardrails and schema definitions to practice Vibe Coding safely and efficiently.
-
-### Characteristics of Vibe Coding
-
-1. **High-Level Instructions**: Developers provide high-level instructions to AI instead of detailed specifications.
-2. **Iterative Improvement**: Review the code generated by AI and provide feedback for improvement.
-3. **Rapid Development**: Development speed is significantly improved compared to traditional methods.
-
-### Enhancing Vibe Coding with ai-schema
-
-ai-schema enhances Vibe Coding in the following ways:
-
-1. **Guidance Through Schema Definitions**: Provides clear guidelines to AI, improving output quality.
-2. **Safety Through Guardrails**: Ensures that even if AI makes mistakes, they don't lead to critical problems.
-3. **Integration with Backend Services**: Ensures consistency between the front-end and backend.
-
-## Practical Use Cases
-
-ai-schema is particularly effective in the following use cases:
-
-### Accelerating Front-End Development
-
-To accelerate AI-driven front-end development, ai-schema supports the automatic generation of UI components based on GraphQL schemas.
-
-<div class="vp-code-group">
-<div class="vp-code-group-content">
-
-```typescript [Schema Definition]
-// GraphQL Schema
-const userSchema = `
-  type User {
-    id: ID!
-    name: String!
-    email: String!
-    role: UserRole!
-  }
-  
-  enum UserRole {
-    ADMIN
-    USER
-    GUEST
-  }
-`;
+<input
+  type="email"
+  placeholder="Enter your email"
+  data-ai-annotation="User's primary email address for login and notifications."
+/>
 ```
 
-```typescript [Instructions to AI]
-// Instructions to AI
-const prompt = `
-Create a React component for a user edit form based on the following GraphQL schema:
+Annotations can range from simple descriptions to structured JSON data.
 
-${userSchema}
+### 3. Interactive Browser Experience
 
-- Include input fields for name, email, and role.
-- Implement validation.
-- Add a submit button.
-`;
-```
+Once the script is loaded, hovering over an annotated element in the browser will display its annotation, making it instantly visible to human users (developers, testers, designers). Future versions may include visual editing capabilities directly in the browser.
 
-```tsx [Generated Component]
-// React component generated by AI
-import React, { useState } from 'react';
+### 4. Human & AI Collaboration
 
-type UserRole = 'ADMIN' | 'USER' | 'GUEST';
+The core idea is a shared understanding.
+*   **Humans:** Can easily read and write annotations to convey intent, requirements, or notes.
+*   **AI:** Can programmatically access these annotations to understand the UI's structure, purpose, and state, enabling more informed actions.
 
-interface UserFormProps {
-  onSubmit: (user: {
-    name: string;
-    email: string;
-    role: UserRole;
-  }) => void;
-  initialValues?: {
-    name?: string;
-    email?: string;
-    role?: UserRole;
-  };
-}
+### 5. MCP Service Integration
 
-export const UserForm: React.FC<UserFormProps> = ({
-  onSubmit,
-  initialValues = {}
-}) => {
-  const [name, setName] = useState(initialValues.name || '');
-  const [email, setEmail] = useState(initialValues.email || '');
-  const [role, setRole] = useState<UserRole>(initialValues.role || 'USER');
-  const [errors, setErrors] = useState<Record<string, string>>({});
+`ai-annotation` provides an optional MCP service. This allows AI agents (like development assistants or testing bots) to interact with annotations remotely without needing direct browser access.
 
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-    
-    if (!name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-    
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Enter a valid email address';
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+**Example MCP Configuration:**
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (validate()) {
-      onSubmit({ name, email, role });
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        {errors.name && <p className="error">{errors.name}</p>}
-      </div>
-      
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {errors.email && <p className="error">{errors.email}</p>}
-      </div>
-      
-      <div>
-        <label htmlFor="role">Role</label>
-        <select
-          id="role"
-          value={role}
-          onChange={(e) => setRole(e.target.value as UserRole)}
-        >
-          <option value="ADMIN">Admin</option>
-          <option value="USER">User</option>
-          <option value="GUEST">Guest</option>
-        </select>
-      </div>
-      
-      <button type="submit">Submit</button>
-    </form>
-  );
-};
-```
-
-</div>
-</div>
-
-### Ensuring Backend Consistency
-
-Utilizing GraphQL schemas ensures consistency between the front-end and backend. ai-schema provides functionality to detect schema changes and automatically update front-end code.
-
-### Safe Validation of User Input
-
-Utilizing the OpenAI API enables safe validation of user input. ai-schema provides an interface to easily integrate with the OpenAI API.
-
-## Quick Start
-
-::: tip Installation Steps
-```bash
-# Clone the repository
-git clone https://github.com/ToyB0x/ai-schema.git
-cd ai-schema
-
-# Install dependencies and build
-pnpm install && pnpm build
-```
-
-Add to MCP server configuration file (adjust the path to your actual installation location):
 ```json
+// In your VSCode settings.json or similar
 {
   "mcpServers": {
-    "@ai-schema/mcp": {
-      "command": "node",
-      "args": ["/PATH/TO/YOUR_DIR/ai-schema/apps/mcp/dist/index.js"],
-      "autoApprove": [],
+    "@ai-annotation/mcp": {
+      "command": "node", // Or appropriate command
+      "args": ["/path/to/ai-annotation-mcp-server"],
+      "autoApprove": ["readAnnotations", "updateAnnotation"],
       "disabled": false
     }
   }
 }
 ```
-:::
+
+**Example MCP Tool Usage:**
+
+```xml
+<use_mcp_tool>
+  <server_name>@ai-annotation/mcp</server_name>
+  <tool_name>readAnnotations</tool_name>
+  <arguments>
+    {
+      "url": "http://localhost:3000/myapp",
+      "selector": "button[data-ai-annotation]"
+    }
+  </arguments>
+</use_mcp_tool>
+```
+
+## Potential Use Cases
+
+*   **AI-Powered Testing:** AI agents can read annotations to understand button functions, input field expectations, and element states, leading to more robust automated tests.
+*   **Automated Documentation:** Generate user guides or component libraries by extracting information from annotations.
+*   **Accessibility Audits:** Annotate elements with accessibility information (ARIA roles, expected keyboard behavior) for automated checks.
+*   **Design System Compliance:** Annotate components with design token references or usage guidelines for AI-driven consistency checks.
+*   **Collaborative Development:** Leave notes or instructions for team members (human or AI) directly on the relevant UI elements.
 
 ## Summary
 
-ai-schema is a platform that provides guardrails and schema definitions to safely and efficiently promote AI-driven development. Especially in front-end development, it ensures safety even if AI makes mistakes and promotes collaboration between developers and AI. By integrating with backend services like GraphQL and OpenAI API, it ensures consistency between the front-end and backend and maximizes the effectiveness of AI-driven development.
-
-::: info Future Outlook
-- Support for more advanced AI-driven development methods
-- Integration with a wider variety of backend services
-- Enhanced features for improving AI output quality
-- Building a community-driven schema library
-- Adding advanced security features for enterprise use
-
-ai-schema pioneers the future of AI-driven development and promotes collaboration between developers and AI.
-:::
+`ai-annotation` aims to streamline human-AI collaboration in web development by making HTML itself the medium for communication. By embedding simple, accessible annotations, we provide a shared context that empowers both humans and AI to work together more effectively on UI-related tasks. The ease of integration and the optional MCP service make it a flexible tool for various development workflows.

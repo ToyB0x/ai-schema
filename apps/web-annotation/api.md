@@ -2,400 +2,236 @@
 outline: deep
 ---
 
-# ai-schema API Reference
+# ai-annotation API Reference
 
-This page describes the APIs and integration features provided by ai-schema. ai-schema is a platform that provides guardrails and schema definitions to safely promote AI-driven development.
+This page describes the APIs provided by `ai-annotation`, focusing on the Model Context Protocol (MCP) server integration for interacting with HTML annotations.
 
-## MCP Server Integration
+## 1. MCP Server Integration
 
-ai-schema integrates with AI tools through a Model Context Protocol (MCP) server. This integration allows AI assistants to automatically perform code generation based on schema definitions and apply guardrails.
+`ai-annotation` offers an optional MCP server that allows AI agents and other tools to programmatically read and potentially modify annotations on web pages without direct browser access.
 
-```typescript
-// Basic implementation example of an MCP server
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+### Setting Up the MCP Server
 
-class AiSchemaServer {
-  private server: Server;
+To use the MCP integration, you need to run the `ai-annotation` MCP server and configure your client (e.g., VSCode) to connect to it.
 
-  constructor() {
-    this.server = new Server(
-      {
-        name: 'ai-schema-server',
-        version: '0.1.0',
-      },
-      {
-        capabilities: {
-          resources: {},
-          tools: {},
-        },
-      }
-    );
-
-    this.setupToolHandlers();
-    
-    // Error handling
-    this.server.onerror = (error) => console.error('[MCP Error]', error);
-  }
-
-  async run() {
-    const transport = new StdioServerTransport();
-    await this.server.connect(transport);
-    console.error('ai-schema MCP server running on stdio');
-  }
-}
-```
-
-## Core API
-
-ai-schema provides a comprehensive API for safely promoting AI-driven development.
-
-### GuardRail Interface
-
-All guardrails implement the following interface:
-
-```typescript
-interface GuardRail {
-  id: string;
-  validate(input: any, context?: ValidationContext): ValidationResult;
-}
-
-interface ValidationContext {
-  schema?: GraphQLSchema;
-  options?: Record<string, any>;
-}
-
-interface ValidationResult {
-  valid: boolean;
-  violations: string[];
-  suggestions?: string[];
-}
-```
-
-### GuardRail Implementation Example
-
-```typescript{4-5}
-// Implementation example of a user input guardrail
-import { GuardRail, ValidationResult } from '@ai-schema/core';
-
-export class UserInputGuardRail implements GuardRail {
-  id = 'user-input';  // Highlight: Unique identifier for the guardrail
-  
-  validate(input: string): ValidationResult {
-    const violations: string[] = [];
-    
-    // Check if input is not empty
-    if (!input.trim()) {
-      violations.push('Input is empty');
-    }
-    
-    // Check if input is not too long
-    if (input.length > 1000) {
-      violations.push('Input is too long (max 1000 characters)');
-    }
-    
-    // Check if forbidden words are included
-    const forbiddenWords = ['password', 'credit card', 'secret'];
-    for (const word of forbiddenWords) {
-      if (input.toLowerCase().includes(word.toLowerCase())) {
-        violations.push(`Forbidden word "${word}" is included`);
-      }
-    }
-    
-    return {
-      valid: violations.length === 0,
-      violations
-    };
-  }
-}
-```
-
-## GraphQL Integration API
-
-ai-schema provides guardrails and schema definitions utilizing GraphQL schemas.
-
-### GraphQLSchemaProvider Interface
-
-```typescript
-interface GraphQLSchemaProvider {
-  getSchema(): GraphQLSchema;
-  validateQuery(query: string): ValidationResult;
-  validateMutation(mutation: string): ValidationResult;
-}
-```
-
-### GraphQLSchemaProvider Implementation Example
-
-```typescript
-import { GraphQLSchemaProvider, ValidationResult } from '@ai-schema/core';
-import { buildSchema, GraphQLSchema, validate } from 'graphql';
-
-export class UserGraphQLSchemaProvider implements GraphQLSchemaProvider {
-  private schema: GraphQLSchema;
-  
-  constructor() {
-    // Definition of the GraphQL schema
-    const typeDefs = `
-      type User {
-        id: ID!
-        name: String!
-        email: String!
-        role: UserRole!
-      }
-      
-      enum UserRole {
-        ADMIN
-        USER
-        GUEST
-      }
-      
-      type Query {
-        user(id: ID!): User
-        users: [User!]!
-      }
-      
-      type Mutation {
-        createUser(name: String!, email: String!, role: UserRole!): User!
-        updateUser(id: ID!, name: String, email: String, role: UserRole): User!
-        deleteUser(id: ID!): Boolean!
-      }
-    `;
-    
-    this.schema = buildSchema(typeDefs);
-  }
-  
-  getSchema(): GraphQLSchema {
-    return this.schema;
-  }
-  
-  validateQuery(query: string): ValidationResult {
-    const errors = validate(this.schema, query);
-    
-    return {
-      valid: errors.length === 0,
-      violations: errors.map(error => error.message)
-    };
-  }
-  
-  validateMutation(mutation: string): ValidationResult {
-    return this.validateQuery(mutation);
-  }
-}
-```
-
-## OpenAI Integration API
-
-ai-schema provides guardrails and content generation features utilizing the OpenAI API.
-
-::: info
-An OpenAI API key is required to use the OpenAI API.
-:::
-
-### OpenAIValidator Interface
-
-```typescript
-interface OpenAIValidator {
-  validateInput(input: string): Promise<ValidationResult>;
-  generateContent(prompt: string, options?: GenerationOptions): Promise<string>;
-}
-
-interface GenerationOptions {
-  temperature?: number;
-  maxTokens?: number;
-  model?: string;
-}
-```
-
-### OpenAIValidator Implementation Example
-
-```typescript
-import { OpenAIValidator, ValidationResult, GenerationOptions } from '@ai-schema/core';
-import { OpenAI } from 'openai';
-
-export class DefaultOpenAIValidator implements OpenAIValidator {
-  private openai: OpenAI;
-  
-  constructor(apiKey: string) {
-    this.openai = new OpenAI({
-      apiKey
-    });
-  }
-  
-  async validateInput(input: string): Promise<ValidationResult> {
-    const response = await this.openai.chat.completions.create({
-      model: 'gpt-4',
-      messages: [
-        { role: 'system', content: 'You are an assistant that validates user input.' },
-        { role: 'user', content: `Determine if the following input is safe: ${input}` }
-      ],
-      temperature: 0,
-    });
-    
-    const content = response.choices[0].message.content ?? '';
-    const valid = content.toLowerCase().includes('safe');
-    
-    return {
-      valid,
-      violations: valid ? [] : ['Input is not safe']
-    };
-  }
-  
-  async generateContent(prompt: string, options: GenerationOptions = {}): Promise<string> {
-    const response = await this.openai.chat.completions.create({
-      model: options.model ?? 'gpt-4',
-      messages: [
-        { role: 'user', content: prompt }
-      ],
-      temperature: options.temperature ?? 0.7,
-      max_tokens: options.maxTokens,
-    });
-    
-    return response.choices[0].message.content ?? '';
-  }
-}
-```
-
-## Tool API
-
-ai-schema provides the following tool APIs:
-
-::: info
-These APIs are exposed to AI assistants through the MCP server.
-:::
-
-| Tool Name | Description |
-|---------|------|
-| `validate-schema` | Validates the GraphQL schema |
-| `validate-input` | Validates user input |
-| `generate-component` | Generates UI components based on the schema |
-| `generate-query` | Generates GraphQL queries based on the schema |
-| `generate-mutation` | Generates GraphQL mutations based on the schema |
-| `apply-guardrail` | Applies guardrails |
-| `load-schema` | Loads the GraphQL schema |
-| `validate-code` | Validates generated code |
-
-## Configuration Example
-
-Example of an ai-schema configuration file (`ai-schema.config.json`):
+**Example MCP Server Configuration (in VSCode `settings.json`):**
 
 ```json
 {
-  "graphql": {
-    "schemaPath": "./schema.graphql",
-    "endpoint": "https://api.example.com/graphql"
-  },
-  "openai": {
-    "apiKey": "${OPENAI_API_KEY}",
-    "model": "gpt-4"
-  },
-  "guardrails": {
-    "userInput": {
-      "enabled": true,
-      "options": {
-        "maxLength": 1000,
-        "forbiddenWords": ["password", "credit card", "secret"]
-      }
-    },
-    "codeGeneration": {
-      "enabled": true,
-      "options": {
-        "framework": "react",
-        "typescript": true,
-        "styling": "css-modules"
-      }
+  "mcpServers": {
+    "@ai-annotation/mcp": {
+      // Command to start the ai-annotation MCP server
+      "command": "node",
+      "args": ["/path/to/your/ai-annotation-mcp/server.js"],
+      // Automatically approve common read operations, prompt for others
+      "autoApprove": ["readAnnotations", "findElement"],
+      "disabled": false // Set to true to disable
     }
   }
 }
 ```
 
-## Client Integration Example
+Replace `/path/to/your/ai-annotation-mcp/server.js` with the actual path to the server executable.
 
-Example of integrating ai-schema into a React application:
+## 2. MCP Tools
 
-```tsx
-import React, { useState } from 'react';
-import { AiSchema, GuardRail } from '@ai-schema/react';
-import { UserInputGuardRail } from './guardrails/UserInputGuardRail';
+The `@ai-annotation/mcp` server provides tools for interacting with annotated web pages.
 
-// Guardrail configuration
-const guardrails: GuardRail[] = [
-  new UserInputGuardRail()
-];
+### `readAnnotations`
 
-function App() {
-  const [input, setInput] = useState('');
-  const [result, setResult] = useState<string | null>(null);
-  const [violations, setViolations] = useState<string[]>([]);
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Apply guardrails
-    const validationResult = await AiSchema.validateInput(input, guardrails);
-    
-    if (validationResult.valid) {
-      // Process safe input
-      const response = await fetch('/api/process', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ input })
-      });
-      
-      const data = await response.json();
-      setResult(data.result);
-      setViolations([]);
-    } else {
-      // Display violations
-      setViolations(validationResult.violations);
-      setResult(null);
+Reads annotations from specified elements on a web page.
+
+**Input Schema:**
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "The URL of the web page to access."
+    },
+    "selector": {
+      "type": "string",
+      "description": "A CSS selector to target specific elements. If omitted, reads annotations from all elements with the `data-ai-annotation` attribute."
     }
-  };
-  
-  return (
-    <div>
-      <h1>AI-Driven Application</h1>
-      
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="input">Input:</label>
-          <textarea
-            id="input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            rows={5}
-            cols={50}
-          />
-        </div>
-        
-        {violations.length > 0 && (
-          <div className="violations">
-            <h3>Input Errors:</h3>
-            <ul>
-              {violations.map((violation, index) => (
-                <li key={index}>{violation}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        
-        <button type="submit">Submit</button>
-      </form>
-      
-      {result && (
-        <div className="result">
-          <h3>Result:</h3>
-          <p>{result}</p>
-        </div>
-      )}
-    </div>
-  );
+  },
+  "required": ["url"],
+  "additionalProperties": false
 }
-
-export default App;
 ```
 
-## Further Information
+**Output Schema (Example):**
 
-For more details on ai-schema's API and integration features, refer to the [GitHub Repository](https://github.com/ToyB0x/ai-schema).
+Returns an array of objects, each containing the element's selector path and its annotation content.
+
+```json
+[
+  {
+    "selector": "body > button:nth-child(2)",
+    "annotation": "Logs the user in after validating credentials."
+  },
+  {
+    "selector": "#password",
+    "annotation": {
+      "description": "User password input field.",
+      "validation_rules": ["min_length: 8", "requires_special_char"],
+      "security_level": "high"
+    }
+  }
+  // ... other annotations
+]
+```
+
+**Example Usage:**
+
+```xml
+<use_mcp_tool>
+  <server_name>@ai-annotation/mcp</server_name>
+  <tool_name>readAnnotations</tool_name>
+  <arguments>
+    {
+      "url": "http://localhost:8080/login",
+      "selector": "button, input[type='password']"
+    }
+  </arguments>
+</use_mcp_tool>
+```
+
+### `updateAnnotation`
+
+Updates or adds an annotation to a specific element on a web page. (Requires appropriate permissions/prompt approval).
+
+**Input Schema:**
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "The URL of the web page to modify."
+    },
+    "selector": {
+      "type": "string",
+      "description": "A CSS selector to target the specific element to update."
+    },
+    "newAnnotation": {
+      "type": ["string", "object", "null"],
+      "description": "The new annotation content (string or JSON object). Use null to remove the annotation."
+    }
+  },
+  "required": ["url", "selector", "newAnnotation"],
+  "additionalProperties": false
+}
+```
+
+**Output Schema (Example):**
+
+Returns a confirmation message.
+
+```json
+{
+  "success": true,
+  "message": "Annotation updated successfully for element matching selector '#username'."
+}
+```
+
+**Example Usage:**
+
+```xml
+<use_mcp_tool>
+  <server_name>@ai-annotation/mcp</server_name>
+  <tool_name>updateAnnotation</tool_name>
+  <arguments>
+    {
+      "url": "http://localhost:8080/profile",
+      "selector": "#username",
+      "newAnnotation": {
+        "description": "User's display name.",
+        "editable": false
+      }
+    }
+  </arguments>
+</use_mcp_tool>
+```
+
+### `findElement`
+
+Finds elements based on their annotation content.
+
+**Input Schema:**
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "The URL of the web page to search."
+    },
+    "annotationQuery": {
+      "type": "string",
+      "description": "A query string to search within annotation text. For JSON annotations, use dot notation (e.g., 'security_level:high')."
+    }
+  },
+  "required": ["url", "annotationQuery"],
+  "additionalProperties": false
+}
+```
+
+**Output Schema (Example):**
+
+Returns an array of selector paths for elements whose annotations match the query.
+
+```json
+[
+  "#password",
+  "input[name='confirm_password']"
+]
+```
+
+**Example Usage:**
+
+```xml
+<use_mcp_tool>
+  <server_name>@ai-annotation/mcp</server_name>
+  <tool_name>findElement</tool_name>
+  <arguments>
+    {
+      "url": "http://localhost:8080/settings",
+      "annotationQuery": "security_level:high"
+    }
+  </arguments>
+</use_mcp_tool>
+```
+
+## 3. Client-Side Script API (Conceptual)
+
+The `ai-annotation.js` script primarily handles the display of annotations on hover. While it might expose a minimal JavaScript API in the future (e.g., for programmatically triggering annotation display or accessing annotations from the client-side), the primary method for programmatic interaction is intended to be via the MCP server or direct DOM manipulation.
+
+**Example Direct DOM Access (JavaScript):**
+
+```javascript
+// Get annotation from an element
+const element = document.getElementById('myButton');
+const annotationString = element.getAttribute('data-ai-annotation');
+
+let annotationData;
+if (annotationString) {
+  try {
+    annotationData = JSON.parse(annotationString); // Try parsing as JSON
+  } catch (e) {
+    annotationData = annotationString; // Fallback to string
+  }
+  console.log(annotationData);
+}
+
+// Set annotation on an element
+const newAnnotation = { purpose: "Navigate to dashboard", timestamp: Date.now() };
+element.setAttribute('data-ai-annotation', JSON.stringify(newAnnotation));
+```
+
+---
+
+This API reference provides an overview of interacting with `ai-annotation`. Refer to specific tool documentation within the MCP server implementation for the most up-to-date details.
