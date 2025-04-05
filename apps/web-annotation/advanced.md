@@ -223,7 +223,8 @@ Beyond just *using* annotations, AI can play a crucial role in *creating and mai
 2.  **Annotation Suggestion:** Based on this context, the AI *suggests* appropriate `data-ai-annotation` content.
     *   For the submit button: `{"action": "saveUserSettings", "purpose": "Saves the user's updated settings"}`.
     *   For an input field with `name="email"`: `{"field": "email", "validation": "emailFormat", "required": true}`.
-3.  **Schema Adherence:** If a project-specific annotation schema (like a JSON Schema) exists, the AI ensures its suggestions conform to that schema, promoting consistency.
+3.  **Why this step is crucial:** Directly jumping from UI changes to backend schema/code modifications can be cognitively demanding for humans. It's hard to mentally map a visual UI change to its abstract data representation and then to the specific lines of code in the backend. By introducing this intermediate step – generating/updating annotations as a structured representation of intent *at the UI level* – we create a crucial checkpoint. Developers can easily verify if the AI correctly interpreted the UI's purpose by simply hovering over the element or inspecting the annotation. This visual and contextual validation is much more intuitive than deciphering complex schema diffs in isolation. It ensures that the AI and the developer are aligned on the *what* before moving to the *how* (schema/code changes), significantly reducing the risk of errors propagating downstream. This collaborative validation step makes the entire process more robust and trustworthy.
+4.  **Schema Adherence:** If a project-specific annotation schema (like a JSON Schema) exists, the AI ensures its suggestions conform to that schema, promoting consistency.
 
 **AI-Powered Annotation Updating:**
 
@@ -245,8 +246,9 @@ Beyond just *using* annotations, AI can play a crucial role in *creating and mai
 *   **Improved Consistency:** Ensures annotations stay aligned with the UI and codebase, reducing the risk of outdated or incorrect information.
 *   **Enhanced Collaboration:** Provides a consistent, machine-readable layer of context over the UI that benefits both humans and AI tools involved in the development lifecycle.
 *   **Knowledge Discovery:** Can help uncover implicit assumptions or missing information in the UI design or code by highlighting areas where annotations are difficult to generate automatically.
+*   **Improved Collaboration:** Provides a clear, structured language (the annotations themselves) for communication between designers, frontend developers, backend developers, and AI tools.
 
-By leveraging AI not just to consume, but also to *generate and maintain* annotations, we can create a truly dynamic and intelligent system that enhances developer productivity and improves the overall quality of the software development process.
+By leveraging AI not just to consume, but also to *generate and maintain* annotations, we create a truly dynamic and intelligent system that enhances developer productivity and improves the overall quality of the software development process. This human-AI collaboration, centered around the annotation layer, allows for faster iteration cycles while maintaining code quality and consistency.
 
 
 ## Example Workflow: From Design to Deployment with AI Annotation
