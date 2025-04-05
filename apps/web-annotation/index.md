@@ -25,7 +25,7 @@ features:
     icon: ✨
   - title: Interactive Annotations
     details: Hover over UI components in your browser to view and edit annotations seamlessly.
-    icon: 🖱️
+    icon: 💬
   - title: Human & AI Collaboration
     details: Annotations are designed to be easily understood and modified by both humans and AI agents.
     icon: 🤝
