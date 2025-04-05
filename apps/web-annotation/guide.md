@@ -85,7 +85,46 @@ The included script provides basic browser interaction:
 *   **Hover to View:** Move your mouse over an annotated element to see its content.
 *   **(Future) Editing:** Future versions may allow direct editing of annotations within the browser via a dedicated UI panel or context menu.
 
-## 4. AI Integration via MCP
+## 4. Annotation Rendering & Customization
+
+While `data-ai-annotation` provides a structured way for AI to access information, making this data easily visible to humans directly on the web page is equally important for collaboration.
+
+### Default Renderer: Tooltip on Hover
+
+The standard `ai-annotation.js` script you include in your HTML provides a default rendering mechanism:
+
+*   **Tooltip Display:** When you hover over an element with a `data-ai-annotation` attribute, the script displays the annotation content in a simple tooltip popup.
+*   **Readability:** This makes the annotations immediately accessible to developers, testers, or designers interacting with the page.
+
+### Customizing the Renderer
+
+The default tooltip is just a starting point. The rendering mechanism is designed to be customizable:
+
+1.  **Modify the Script:** You can modify the provided `ai-annotation.js` script or replace it entirely with your own implementation to change how annotations are displayed.
+
+2.  **Schema-Driven Rendering:** Define a specific JSON schema for your `data-ai-annotation` content. Your custom script can then parse this JSON and render a more sophisticated, graphical popup based on the schema fields (e.g., displaying different icons based on `type`, formatting `confidence` scores, etc.).
+
+    ```html
+    <!-- Example with a schema-based annotation -->
+    <button data-ai-annotation='{
+      "action": "submit",
+      "target": "/api/users",
+      "confirmation_required": true,
+      "ui_importance": "high"
+    }'>Submit User</button>
+    ```
+
+    Your custom renderer could display this with icons, specific colors based on `ui_importance`, etc.
+
+3.  **Changing Output Target:** The renderer doesn't have to be a visual popup. You could customize the script to:
+    *   Log annotations to the browser's developer console upon hovering or clicking.
+    *   Display annotations in a dedicated panel within your application's UI.
+    *   Send annotation data to a third-party analytics or debugging service.
+
+By customizing the rendering script, you can tailor the visibility and interaction with annotations to best suit your team's workflow and the specific needs of your project.
+
+
+## 5. AI Integration via MCP
 
 The Model Context Protocol (MCP) service allows AI agents to interact with annotations programmatically.
 
@@ -158,7 +197,7 @@ An AI assistant can use the `use_mcp_tool` to fetch annotations:
 </use_mcp_tool>
 ```
 
-## 5. Direct DOM Access for AI
+## 6. Direct DOM Access for AI
 
 AI agents with direct access to the web page's DOM (e.g., browser extensions, Puppeteer scripts) can simply query the `data-ai-annotation` attribute:
 
@@ -177,18 +216,18 @@ if (annotationData) {
 }
 ```
 
-## 6. Use Case Examples
+## 7. Use Case Examples
 
 *   **Instructing a Test Bot:** "Click the button annotated with `test_id: 'SUBMIT_ORDER'`."
 *   **Generating Documentation:** Extract all `description` fields from annotations to build a component reference.
 *   **Accessibility Check:** "Verify that all elements annotated with `role: 'button'` are keyboard accessible."
 *   **Design Review:** "Flag any elements whose `color_token` annotation doesn't match the design system palette."
 
-## 7. Customization (Advanced)
+## 8. Customization (Advanced)
 
 *(Details on customization options like changing the attribute name or hover style will be added here in future versions.)*
 
-## 8. Troubleshooting
+## 9. Troubleshooting
 
 *   **Annotations not appearing:**
     *   Ensure the script tag is correctly included and the path is valid.
