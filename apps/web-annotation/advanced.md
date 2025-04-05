@@ -136,32 +136,76 @@ The real power comes when dealing with *changes*. When UI requirements evolve, a
 }'>Create User</button>
 ```
 
-**AI-Powered Synchronization:**
+**AI-Powered Synchronization via MCP:**
 
-1.  **Diff Analysis:** An AI tool can compare the *new* annotation structure (specifically the `request_payload` and `response_payload`) with the *existing* schema (GraphQL, OpenAPI, or Prisma schema file). It identifies the difference: the addition of the optional `department` field in the request.
+This synchronization process can be effectively orchestrated using the Model Context Protocol (MCP), allowing AI agents to interact with the codebase in a structured and controlled manner.
 
-2.  **Schema Patching:** The AI proposes changes to the relevant schema files.
-    *   **GraphQL:** Suggests adding `department: String` (nullable) to the `CreateUserInput` input type.
-    *   **OpenAPI:** Suggests adding a `department` property (type: string, nullable: true) to the request body schema in the OpenAPI spec.
-    *   **Prisma:** Suggests adding an optional `department String?` field to the `User` model in the Prisma schema.
+1.  **Code Reading via MCP:** An AI agent, triggered by an annotation change or a developer request, uses an MCP tool (e.g., `readFileContent` or a more specialized `readSchemaFile`) to access the relevant existing files:
+    *   The HTML/component file containing the updated annotation.
+    *   The current schema files (e.g., `schema.graphql`, `openapi.yaml`, `schema.prisma`).
+    *   Potentially, related backend code files (controllers, models, service layers).
 
-3.  **Code Modification (Advanced):** This is the most complex part. The AI needs to understand the codebase structure.
-    *   **Controller/Resolver Logic:** The AI analyzes the code handling the `/api/users` POST request. It identifies where the request body is parsed and validated. It then suggests inserting code to extract the optional `department` field.
-    *   **Database Interaction:** It locates the database insertion/update logic (e.g., using an ORM like Prisma Client or a query builder). It suggests modifying this logic to include the `department` field, potentially adding a condition to only include it if present in the request.
-    *   **Type Definitions:** If using TypeScript/statically typed languages, the AI suggests updating relevant type definitions/interfaces (e.g., adding `department?: string`) to match the schema changes.
-    *   **Validation:** If the annotation specified validation rules for `department` (e.g., `maxLength`), the AI suggests adding corresponding validation logic (e.g., using a library like `zod` or built-in framework validation).
+2.  **Diff Analysis (AI Internal Logic):** The AI compares the structure defined in the *new* annotation (e.g., `request_payload`) with the content read from the *existing* schema files. It identifies the necessary additions, modifications, or deletions. In our scenario, it identifies the need for an optional `department` field.
 
-**Technical Implementation Considerations for Schema Synchronization:**
+3.  **Non-Destructive Suggestion via MCP:** Instead of directly modifying the code, the AI uses an MCP tool (e.g., `insertSuggestionComment`) to write *commented-out* suggestions into the appropriate files. This ensures the existing code remains functional and gives the developer full control.
+
+    *   **GraphQL (`schema.graphql`):**
+        ```graphql
+        input CreateUserInput {
+          name: String!
+          email: String! # Consider using a custom Email scalar
+          role: [UserRole!]
+          # // Suggested by AI-Annotation 2025-04-05
+          # department: String
+        }
+        ```
+
+    *   **OpenAPI (`openapi.yaml`):**
+        ```yaml
+        # ... existing properties ...
+        # # Suggested by AI-Annotation 2025-04-05
+        # department:
+        #   type: string
+        #   nullable: true
+        ```
+
+    *   **Prisma (`schema.prisma`):**
+        ```prisma
+        model User {
+          id    String @id @default(cuid())
+          name  String
+          email String @unique
+          role  Role
+          // // Suggested by AI-Annotation 2025-04-05
+          // department String?
+          // ... other fields ...
+        }
+        ```
+
+    *   **Backend Code (e.g., Controller):** The AI might suggest changes in comments near relevant code sections:
+        ```typescript
+        // // Suggested by AI-Annotation 2025-04-05: Add 'department' to input validation and processing
+        // const { name, email, role /*, department */ } = validatedInput;
+        // await userService.create({ name, email, role /*, department */ });
+        ```
+
+4.  **Developer Review and Action:** The developer sees these clearly marked, commented-out suggestions. They can easily review the proposed changes in context. If they agree, they simply uncomment the relevant lines to apply the change. If not, they can ignore or modify the suggestion.
+
+**Benefits of MCP-based Suggestion:**
+
+*   **Safety:** Avoids accidental breaking changes by not modifying active code directly.
+*   **Clarity:** Suggestions are clearly marked with source and date.
+*   **Developer Control:** The developer remains in full control of the codebase and decides which suggestions to accept.
+*   **Integration:** Fits well into existing review workflows (e.g., code reviews can easily spot and discuss these commented suggestions).
+
+**Technical Implementation Considerations for MCP-based Synchronization:**
 
 *   **Robust Annotation Parsing:** The system needs a reliable way to parse the `data-ai-annotation` JSON, handling potential errors or variations.
 *   **Schema Representation:** The AI needs an internal representation of the different schema types (GraphQL AST, OpenAPI Object Model, Prisma DMMF or similar).
-*   **AST Manipulation:** Modifying code requires sophisticated Abstract Syntax Tree (AST) manipulation. Libraries like `ts-morph` for TypeScript, `AST-Query` for Python, or Roslyn for C# are essential. This involves:
-    *   Parsing the source code into an AST.
-    *   Locating the specific nodes representing function signatures, type definitions, database calls, etc.
-    *   Modifying these nodes (e.g., adding parameters, changing types, inserting statements).
-    *   Generating the modified code back from the AST.
+*   **MCP Tool Design:** Define clear MCP tools for reading files (`readFileContent`), inserting comments (`insertSuggestionComment`), and potentially more advanced analysis (`analyzeCodeStructure`). These tools need appropriate permissions.
+*   **Comment Insertion Logic:** The `insertSuggestionComment` tool needs logic to find the correct insertion point within schema files or code files (e.g., inside a specific type definition, model, or near a relevant function call). This might still involve basic AST analysis or sophisticated regex/pattern matching.
 *   **Contextual Understanding:** The AI needs context beyond just the annotation. It must understand the project structure, the frameworks used (e.g., Express, NestJS, FastAPI), and the ORM/database client patterns to make meaningful code changes. This might involve analyzing `package.json`, configuration files, or using language models trained on specific framework conventions.
-*   **Diffing and Merging:** After generating proposed changes, the AI needs to present them clearly to the developer, often as a diff. Tools could integrate with version control systems (like Git) to apply these changes intelligently, potentially requiring manual resolution of conflicts.
-*   **Safety and Reversibility:** Automated code modification is inherently risky. The process must be designed with safety nets. Changes should ideally be atomic and easily reversible (e.g., through version control). Extensive testing is crucial after applying any automated changes.
+*   **Contextual Understanding (Still Required):** Even for inserting comments, the AI needs context to place them correctly. Understanding project structure and framework conventions remains important.
+*   **Suggestion Management:** Consider how to manage suggestions. Should old suggestions be removed automatically if the annotation changes again? How are accepted suggestions tracked?
 
-**Benefits:** This advanced AI-driven synchronization creates a tight loop between the UI design/requirements (captured in annotations) and the backend implementation. It drastically reduces the manual effort and potential for errors involved in keeping APIs and database schemas consistent, especially in agile or rapidly evolving projects. It empowers developers by automating tedious tasks and providing intelligent assistance for maintaining code quality and consistency.
+**Benefits (Enhanced):** This MCP-driven, suggestion-based approach retains the benefits of synchronization while significantly enhancing safety and developer control. It transforms annotations into actionable, non-intrusive proposals, seamlessly integrating AI assistance into the developer's existing workflow.
