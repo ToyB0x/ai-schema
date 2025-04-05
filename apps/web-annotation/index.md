@@ -42,7 +42,7 @@ features:
 footer: MIT Licensed | Copyright © 2025 ai-annotation Contributors
 ---
 
-# Enhancing Human-AI Collaboration with HTML Annotations
+## Enhancing Human-AI Collaboration with HTML Annotations
 
 ai-annotation provides a novel way for humans and AI to collaborate by adding contextual annotations directly to HTML elements. Simply include our script, and start annotating your web interface.
 
