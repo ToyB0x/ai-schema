@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: "ai-annotation"
+  name: "AI-annotation"
   text: "Collaborative HTML Annotation for Human-AI Interaction"
   tagline: "Bridge the gap between humans and AI through intuitive annotations directly on your web interface."
   image:
@@ -67,7 +67,11 @@ This system facilitates tasks like AI-driven UI testing, automated documentation
 </head>
 <body>
   <!-- Your HTML content -->
-  <button data-ai-annotation="Submit user registration form">Register</button>
+  <button
+    id="register-btn"
+    data-ai-annotation="{ backend: 'graphql', schema: { path: 'path/to/schema', query: 'query xxx' } }">
+    Register
+  </button>
 </body>
 </html>
 ```

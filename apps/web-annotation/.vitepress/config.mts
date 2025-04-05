@@ -2,14 +2,14 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-	title: "ai-schema",
+	title: "AI-annotation",
 	description:
-		"ai-schema bridges the gap between AI capabilities and human documentation standards. Instead of adapting to how AI writes, define your rules and watch AI conform to your standards.",
+		"AI-annotation: collaborative HTML Annotation for Human-AI Interaction Bridge the gap between humans and AI through intuitive annotations directly on your web interface.",
 	head: [
 		["link", { rel: "icon", href: "/logo.svg", type: "image/svg+xml" }],
 		["meta", { name: "theme-color", content: "#646cff" }],
 		["meta", { name: "og:type", content: "website" }],
-		["meta", { name: "og:title", content: "ai-schema" }],
+		["meta", { name: "og:title", content: "ai-annotation" }],
 		["meta", { name: "og:image", content: "/logo.svg" }],
 		[
 			"meta",
@@ -54,14 +54,14 @@ export default defineConfig({
 		],
 
 		socialLinks: [
-			{ icon: "github", link: "https://github.com/ToyB0x/ai-schema" },
+			{ icon: "github", link: "https://github.com/ToyB0x/ai-annotation" },
 			{ icon: "twitter", link: "https://twitter.com" },
 			{ icon: "discord", link: "https://discord.com" },
 		],
 
 		footer: {
 			message: "Released under the MIT License.",
-			copyright: "Copyright © 2025 ai-schema Contributors",
+			copyright: "Copyright © 2025 ai-annotation Contributors",
 		},
 
 		search: {
