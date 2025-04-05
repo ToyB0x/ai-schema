@@ -48,7 +48,8 @@ export default defineConfig({
 				text: "Guide",
 				items: [
 					{ text: "Getting Started", link: "/guide" },
-					{ text: "Rules", link: "/api" },
+					{ text: "Usecase", link: "/usecase" },
+					{ text: "API", link: "/api" },
 				],
 			},
 		],
