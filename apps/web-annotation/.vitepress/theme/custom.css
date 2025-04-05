@@ -1,0 +1,130 @@
+:root {
+	--vp-c-brand: #646cff;
+	--vp-c-brand-light: #747bff;
+	--vp-c-brand-lighter: #9499ff;
+	--vp-c-brand-dark: #535bf2;
+	--vp-c-brand-darker: #454ce1;
+
+	--vp-home-hero-name-color: transparent;
+	--vp-home-hero-name-background: linear-gradient(120deg, #bd34fe 30%, #646cff);
+
+	--vp-home-hero-image-background-image: linear-gradient(
+		120deg,
+		#bd34fe 10%,
+		#646cff 90%
+	);
+	--vp-home-hero-image-filter: blur(40px);
+}
+
+/* Dark mode adjustments */
+.dark {
+	--vp-home-hero-image-background-image: linear-gradient(
+		120deg,
+		#bd34fe 10%,
+		#646cff 90%
+	);
+}
+
+/* Animation for the hero name */
+.VPHomeHero .name {
+	background-clip: text;
+	-webkit-background-clip: text;
+	transition: all 0.5s ease;
+}
+
+.VPHomeHero .name:hover {
+	transform: scale(1.05);
+}
+
+/* Feature section enhancements */
+.VPFeature {
+	transition: all 0.3s ease;
+	border-radius: 12px;
+	border: 1px solid transparent;
+}
+
+.VPFeature:hover {
+	transform: translateY(-5px);
+	border-color: var(--vp-c-brand-light);
+	box-shadow: 0 5px 15px rgba(100, 108, 255, 0.1);
+}
+
+.VPFeature:hover .icon {
+	transform: scale(1.2);
+}
+
+/* Custom code blocks */
+.vp-code-group {
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom block styling */
+.custom-block {
+	transition: all 0.3s ease;
+}
+
+.custom-block:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(100, 108, 255, 0.15);
+}
+
+/* Gradient text for headings */
+h2 {
+	background: linear-gradient(120deg, #bd34fe 10%, #646cff 90%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	display: inline-block;
+}
+
+/* Button animations */
+.VPButton {
+	transition: all 0.3s ease;
+	position: relative;
+	overflow: hidden;
+}
+
+.VPButton.brand:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(100, 108, 255, 0.3);
+}
+
+.VPButton.brand::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 0.2) 50%,
+		rgba(255, 255, 255, 0) 100%
+	);
+	transition: all 0.6s ease;
+}
+
+.VPButton.brand:hover::after {
+	left: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.VPFeature {
+		padding: 1.5rem;
+	}
+
+	.VPHomeHero .name {
+		font-size: 3rem;
+	}
+}
+
+/* Footer styling */
+.VPFooter {
+	border-top: 1px solid var(--vp-c-divider);
+	padding-top: 2rem;
+	margin-top: 2rem;
+}
