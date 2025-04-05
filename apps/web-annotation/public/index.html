@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Annotation Example</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        .annotated-element {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: help;
+            /* Indicate interactivity */
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: pre-wrap;
+            z-index: 10000;
+            pointer-events: none;
+            /* Prevent tooltip from blocking mouse events */
+            display: none;
+            /* Hidden by default */
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>AI Annotation Demo</h1>
+
+    <p>Hover over the elements below to see the AI-generated annotations.</p>
+
+    <div class="annotated-element" data-ai-annotation="This is a simple paragraph explaining the concept.">
+        This is the main content of the first section. It discusses the core idea.
+    </div>
+
+    <div class="annotated-element"
+        data-ai-annotation='{"type": "list", "items": ["item1", "item2", "item3"], "confidence": 0.95}'>
+        This section contains a list of items. The annotation data is in JSON format.
+    </div>
+
+    <div class="annotated-element"
+        data-ai-annotation="A more complex annotation with\nmultiple lines and details.\nConfidence Score: 0.8">
+        This element has a multi-line annotation stored in its data attribute.
+    </div>
+
+    <p>The script `ai-annotation.js` handles displaying these annotations on hover.</p>
+
+    <!-- Load the ai-annotation script -->
+    <script src="ai-annotation.js"></script>
+</body>
+
+</html>
