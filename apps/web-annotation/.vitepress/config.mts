@@ -27,14 +27,14 @@ export default defineConfig({
 		nav: [
 			{ text: "Home", link: "/" },
 			{ text: "Guide", link: "/concept" },
-			{ text: "API", link: "/api" },
+			{ text: "MCP", link: "/mcp" },
 			{ text: "Pricing", link: "/price" },
 			{
 				text: "Resources",
 				items: [
 					{ text: "Concept", link: "/concept" },
 					{ text: "Guide", link: "/guide" },
-					{ text: "API Reference", link: "/api" },
+					{ text: "MCP Reference", link: "/mcp" },
 				],
 			},
 		],
@@ -50,7 +50,7 @@ export default defineConfig({
 					{ text: "Getting Started", link: "/guide" },
 					{ text: "Usecase", link: "/usecase2" },
 					{ text: "Advanced", link: "/advanced" },
-					{ text: "API", link: "/api" },
+					{ text: "MCP", link: "/mcp" },
 				],
 			},
 		],
