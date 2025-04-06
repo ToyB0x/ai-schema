@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -7,42 +7,139 @@
     <title>AI Annotation Example</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
         }
 
         .annotated-element {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
             cursor: help;
+            background-color: #f9f9f9;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .annotated-element:hover {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 30px;
+            color: #3498db;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .note {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>AI Annotation Demo</h1>
+    <h1>AI Annotation デモ</h1>
 
-    <p>Hover over the elements below to see the AI-generated annotations.</p>
+    <p>以下の要素にカーソルを合わせると、AI注釈が表示されます。注釈はマークダウン形式でレンダリングされ、コードブロックはシンタックスハイライトされます。</p>
 
-    <div class="annotated-element" data-ai-annotation="This is a simple paragraph explaining the concept.">
-        This is the main content of the first section. It discusses the core idea.
+    <div class="section-title">基本的なマークダウン注釈</div>
+    <div class="annotated-element" data-ai-annotation="# ボタンコンポーネント
+- **目的**: ユーザーアクションのトリガー
+- **状態**: アクティブ
+- **アクセシビリティ**: キーボードフォーカス可能
+
+> このボタンは重要なアクションに使用されます。">
+        プライマリーボタン
     </div>
 
+    <div class="section-title">コードブロックを含むマークダウン注釈</div>
+    <div class="annotated-element" data-ai-annotation="# 入力フィールドコンポーネント
+
+このコンポーネントは以下のバリデーションルールを持っています：
+
+```typescript
+interface ValidationRules {
+  required: boolean;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: RegExp;
+}
+
+// 使用例
+const emailRules: ValidationRules = {
+  required: true,
+  pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+};
+```
+
+**注意**: バリデーションは入力時とフォーム送信時の両方で実行されます。">
+        <input type="email" placeholder="メールアドレスを入力してください" style="width: 100%; padding: 8px;">
+        <div class="note">メールアドレス形式のバリデーションあり</div>
+    </div>
+
+    <div class="section-title">Diffを含むマークダウン注釈</div>
+    <div class="annotated-element" data-ai-annotation="# 最近の変更点
+
+このコンポーネントは最近以下の変更が行われました：
+
+```diff
+// UserProfile.tsx
+- import { useState } from 'react';
++ import { useState, useEffect } from 'react';
+
+  function UserProfile({ userId }) {
+    const [user, setUser] = useState(null);
++   const [loading, setLoading] = useState(true);
+    
++   useEffect(() => {
++     fetchUserData(userId)
++       .then(data => setUser(data))
++       .finally(() => setLoading(false));
++   }, [userId]);
+    
+-   if (!user) return <div>ユーザーが見つかりません</div>;
++   if (loading) return <div>読み込み中...</div>;
++   if (!user) return <div>ユーザーが見つかりません</div>;
+    
+    return (/* ... */);
+  }
+```
+
+**担当者**: UIチーム">
+        ユーザープロフィールセクション
+        <div class="note">最近ローディング状態が追加されました</div>
+    </div>
+
+    <div class="section-title">JSON形式の注釈（従来の方法）</div>
     <div class="annotated-element"
-        data-ai-annotation='{"type": "list", "items": ["item1", "item2", "item3"], "confidence": 0.95}'>
-        This section contains a list of items. The annotation data is in JSON format.
+        data-ai-annotation='{"type": "component", "name": "DataTable", "props": ["data", "columns", "sortable", "filterable"], "version": "2.3.0", "lastUpdated": "2023-12-15"}'>
+        データテーブル
+        <div class="note">JSON形式の注釈も引き続きサポートされています</div>
     </div>
 
-    <div class="annotated-element"
-        data-ai-annotation='A more complex annotation with
-multiple lines and details.
-Confidence Score: 0.8'>
-        This element has a multi-line annotation stored in its data attribute.
-    </div>
-
-    <p>The script `ai-annotation.js` handles displaying these annotations on hover.</p>
+    <p>このデモでは、<code>ai-annotation.js</code>スクリプトが<code>data-ai-annotation</code>属性を持つ要素を検出し、ホバー時にマークダウンとしてレンダリングします。コードブロックは<code>highlight.js</code>によってハイライトされます。
+    </p>
 
     <!-- Load the ai-annotation script -->
     <script src="ai-annotation.js"></script>
