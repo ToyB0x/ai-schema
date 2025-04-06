@@ -1,64 +1,64 @@
-# ai-annotation Implementation Guide
+# ai-annotation 実装ガイド
 
-Welcome to the `ai-annotation` implementation guide! This guide will walk you through setting up and using `ai-annotation` to facilitate collaboration between humans and AI directly within your HTML.
+`ai-annotation` 実装ガイドへようこそ！このガイドでは、`ai-annotation` をセットアップし、HTML内で直接人間とAIの協調を促進するために使用する方法を説明します。
 
-## 1. Quick Start: Adding Annotations
+## 1. クイックスタート: アノテーションの追加
 
-Getting started with `ai-annotation` is designed to be incredibly simple.
+`ai-annotation` の開始は、信じられないほどシンプルになるように設計されています。
 
-### Step 1: Include the Script Tag
+### ステップ1: スクリプトタグを含める
 
-Add the following script tag to the `<head>` or `<body>` of your HTML file. This script enables the core annotation functionality in the browser.
+以下のスクリプトタグをHTMLファイルの `<head>` または `<body>` に追加します。このスクリプトは、ブラウザでコアなアノテーション機能を有効にします。
 
 ```html
 <script src="https://cdn.example.com/ai-annotation.js" defer></script>
-<!-- Replace with the actual script URL when available -->
+<!-- 利用可能になったら実際のスクリプトURLに置き換えてください -->
 ```
 
-### Step 2: Add Your First Annotation
+### ステップ2: 最初のアノテーションを追加する
 
-Add the `data-ai-annotation` attribute to any HTML element you want to annotate.
+アノテーションを付けたい任意のHTML要素に `data-ai-annotation` 属性を追加します。
 
 ```html
 <body>
-  <h1>Welcome to Our App</h1>
+  <h1>アプリへようこそ</h1>
 
-  <button data-ai-annotation="Logs the user in after validating credentials.">
-    Login
+  <button data-ai-annotation="認証情報を検証した後、ユーザーをログインさせます。">
+    ログイン
   </button>
 
-  <p data-ai-annotation="Displays a welcome message to logged-in users.">
-    Hello, User!
+  <p data-ai-annotation="ログインしたユーザーにウェルカムメッセージを表示します。">
+    こんにちは、ユーザー！
   </p>
 </body>
 ```
 
-### Step 3: View in Browser
+### ステップ3: ブラウザで表示する
 
-Open your HTML file in a web browser. Now, when you hover your mouse over the "Login" button or the paragraph, their respective annotations should appear (e.g., as a tooltip).
+HTMLファイルをWebブラウザで開きます。これで、「ログイン」ボタンまたは段落にマウスカーソルを合わせると、それぞれのアノテーションが表示されるはずです（例：ツールチップとして）。
 
-## 2. Writing Effective Annotations
+## 2. 効果的なアノテーションの記述
 
-Annotations serve as a communication bridge. Make them clear and informative for both humans and AI.
+アノテーションはコミュニケーションの架け橋として機能します。人間とAIの両方にとって明確で情報価値のあるものにしましょう。
 
-### Simple Text Annotations
+### シンプルなテキストアノテーション
 
-For straightforward descriptions, a simple string is sufficient:
+簡単な説明には、単純な文字列で十分です。
 
 ```html
-<img src="logo.png" alt="Company Logo" data-ai-annotation="The official company logo.">
+<img src="logo.png" alt="会社ロゴ" data-ai-annotation="公式の会社ロゴ。">
 ```
 
-### Structured JSON Annotations
+### 構造化されたJSONアノテーション
 
-For more complex information, use a JSON string within the attribute. This allows for richer, queryable data.
+より複雑な情報には、属性内にJSON文字列を使用します。これにより、よりリッチでクエリ可能なデータが可能になります。
 
 ```html
 <input
   type="password"
   id="password"
   data-ai-annotation='{
-    "description": "User password input field.",
+    "description": "ユーザーパスワード入力フィールド。",
     "validation_rules": ["min_length: 8", "requires_special_char"],
     "security_level": "high",
     "related_component": "login-form"
@@ -66,88 +66,88 @@ For more complex information, use a JSON string within the attribute. This allow
 />
 ```
 
-**Common JSON Fields:**
+**一般的なJSONフィールド:**
 
-*   `description`: (String) What the element is or does.
-*   `purpose`: (String) The goal or user task associated with the element.
-*   `state`: (String) Current visual or functional state (e.g., "disabled", "active", "error").
-*   `expected_input`: (String) For input fields, describe the expected data format or constraints.
-*   `test_id`: (String) Identifier for automated testing frameworks.
-*   `accessibility_notes`: (String) Information related to ARIA attributes or keyboard navigation.
-*   `responsible_team`: (String) Which team owns this component.
+*   `description`: (String) 要素が何であるか、または何をするか。
+*   `purpose`: (String) 要素に関連する目標またはユーザータスク。
+*   `state`: (String) 現在の視覚的または機能的な状態（例: "disabled", "active", "error"）。
+*   `expected_input`: (String) 入力フィールドの場合、期待されるデータ形式または制約を記述します。
+*   `test_id`: (String) 自動テストフレームワーク用の識別子。
+*   `accessibility_notes`: (String) ARIA属性またはキーボードナビゲーションに関連する情報。
+*   `responsible_team`: (String) このコンポーネントを所有するチーム。
 
-Choose fields that provide the most value for your specific collaboration needs.
+特定のコラボレーションニーズに最も価値を提供するフィールドを選択してください。
 
-## 3. Browser Interaction
+## 3. ブラウザインタラクション
 
-The included script provides basic browser interaction:
+含まれているスクリプトは、基本的なブラウザインタラクションを提供します。
 
-*   **Hover to View:** Move your mouse over an annotated element to see its content.
-*   **(Future) Editing:** Future versions may allow direct editing of annotations within the browser via a dedicated UI panel or context menu.
+*   **ホバーして表示:** アノテーション付き要素の上にマウスカーソルを移動すると、その内容が表示されます。
+*   **(将来) 編集:** 将来のバージョンでは、専用のUIパネルまたはコンテキストメニューを介して、ブラウザ内でアノテーションを直接編集できる可能性があります。
 
-## 4. Annotation Rendering & Customization
+## 4. アノテーションのレンダリングとカスタマイズ
 
-While `data-ai-annotation` provides a structured way for AI to access information, making this data easily visible to humans directly on the web page is equally important for collaboration.
+`data-ai-annotation` はAIが情報にアクセスするための構造化された方法を提供しますが、このデータをWebページ上で直接人間に見やすくすることも、コラボレーションにとって同様に重要です。
 
-### Default Renderer: Tooltip on Hover
+### デフォルトレンダラー: ホバー時のツールチップ
 
-The standard `ai-annotation.js` script you include in your HTML provides a default rendering mechanism:
+HTMLに含める標準の `ai-annotation.js` スクリプトは、デフォルトのレンダリングメカニズムを提供します。
 
-*   **Tooltip Display:** When you hover over an element with a `data-ai-annotation` attribute, the script displays the annotation content in a simple tooltip popup.
-*   **Readability:** This makes the annotations immediately accessible to developers, testers, or designers interacting with the page.
+*   **ツールチップ表示:** `data-ai-annotation` 属性を持つ要素にカーソルを合わせると、スクリプトはアノテーションの内容をシンプルなツールチップポップアップで表示します。
+*   **可読性:** これにより、ページと対話する開発者、テスター、またはデザイナーがアノテーションにすぐにアクセスできるようになります。
 
-### Customizing the Renderer
+### レンダラーのカスタマイズ
 
-The default tooltip is just a starting point. The rendering mechanism is designed to be customizable:
+デフォルトのツールチップは単なる出発点です。レンダリングメカニズムはカスタマイズ可能に設計されています。
 
-1.  **Modify the Script:** You can modify the provided `ai-annotation.js` script or replace it entirely with your own implementation to change how annotations are displayed.
+1.  **スクリプトの変更:** 提供されている `ai-annotation.js` スクリプトを変更するか、アノテーションの表示方法を変更するために独自の 実装で完全に置き換えることができます。
 
-2.  **Schema-Driven Rendering:** Define a specific JSON schema for your `data-ai-annotation` content. Your custom script can then parse this JSON and render a more sophisticated, graphical popup based on the schema fields (e.g., displaying different icons based on `type`, formatting `confidence` scores, etc.).
+2.  **スキーマ駆動レンダリング:** `data-ai-annotation` コンテンツ用に特定のJSONスキーマを定義します。カスタムスクリプトは、このJSONを解析し、スキーマフィールドに基づいてより洗練されたグラフィカルなポップアップをレンダリングできます（例：`type` に基づいて異なるアイコンを表示する、`confidence` スコアをフォーマットするなど）。
 
     ```html
-    <!-- Example with a schema-based annotation -->
+    <!-- スキーマベースのアノテーションの例 -->
     <button data-ai-annotation='{
       "action": "submit",
       "target": "/api/users",
       "confirmation_required": true,
       "ui_importance": "high"
-    }'>Submit User</button>
+    }'>ユーザー送信</button>
     ```
 
-    Your custom renderer could display this with icons, specific colors based on `ui_importance`, etc.
+    カスタムレンダラーは、これをアイコンや `ui_importance` に基づく特定の色などで表示できます。
 
-3.  **Changing Output Target:** The renderer doesn't have to be a visual popup. You could customize the script to:
-    *   Log annotations to the browser's developer console upon hovering or clicking.
-    *   Display annotations in a dedicated panel within your application's UI.
-    *   Send annotation data to a third-party analytics or debugging service.
+3.  **出力ターゲットの変更:** レンダラーは視覚的なポップアップである必要はありません。スクリプトをカスタマイズして、次のようにすることができます。
+    *   ホバーまたはクリック時にブラウザの開発者コンソールにアノテーションをログ記録する。
+    *   アプリケーションのUI内の専用パネルにアノテーションを表示する。
+    *   アノテーションデータをサードパーティの分析またはデバッグサービスに送信する。
 
-By customizing the rendering script, you can tailor the visibility and interaction with annotations to best suit your team's workflow and the specific needs of your project.
+レンダリングスクリプトをカスタマイズすることで、チームのワークフローとプロジェクトの特定のニーズに合わせて、アノテーションの可視性とインタラクションを調整できます。
 
 
-## 5. AI Integration via MCP
+## 5. MCPによるAI統合
 
-The Model Context Protocol (MCP) service allows AI agents to interact with annotations programmatically.
+Model Context Protocol (MCP) サービスにより、AIエージェントはプログラムでアノテーションと対話できます。
 
-### Setting up the MCP Server
+### MCPサーバーのセットアップ
 
-Configure the `ai-annotation` MCP server in your environment (e.g., VSCode `settings.json`).
+環境（例：VSCode `settings.json`）で `ai-annotation` MCPサーバーを設定します。
 
 ```json
 {
   "mcpServers": {
     "@ai-annotation/mcp": {
-      "command": "node", // Or the command to start the server
+      "command": "node", // またはサーバーを起動するコマンド
       "args": ["/path/to/ai-annotation-mcp-server/main.js"],
-      "autoApprove": ["readAnnotations"], // Allow reading without prompt
+      "autoApprove": ["readAnnotations"], // プロンプトなしで読み取りを許可
       "disabled": false
     }
   }
 }
 ```
 
-### Reading Annotations with MCP
+### MCPによるアノテーションの読み取り
 
-An AI assistant can use the `use_mcp_tool` to fetch annotations:
+AIアシスタントは `use_mcp_tool` を使用してアノテーションを取得できます。
 
 ```xml
 <use_mcp_tool>
@@ -156,19 +156,19 @@ An AI assistant can use the `use_mcp_tool` to fetch annotations:
   <arguments>
     {
       "url": "http://localhost:8080/my-page.html",
-      "selector": "#password" // CSS selector for the target element
+      "selector": "#password" // ターゲット要素のCSSセレクター
     }
   </arguments>
 </use_mcp_tool>
 ```
 
-**Expected Result (Example):**
+**期待される結果（例）:**
 
 ```json
 {
   "selector": "#password",
   "annotation": {
-    "description": "User password input field.",
+    "description": "ユーザーパスワード入力フィールド。",
     "validation_rules": ["min_length: 8", "requires_special_char"],
     "security_level": "high",
     "related_component": "login-form"
@@ -176,7 +176,7 @@ An AI assistant can use the `use_mcp_tool` to fetch annotations:
 }
 ```
 
-### Updating Annotations with MCP (Example)
+### MCPによるアノテーションの更新（例）
 
 ```xml
 <use_mcp_tool>
@@ -187,9 +187,9 @@ An AI assistant can use the `use_mcp_tool` to fetch annotations:
       "url": "http://localhost:8080/my-page.html",
       "selector": "#password",
       "newAnnotation": {
-        "description": "User password input field. Updated.",
+        "description": "ユーザーパスワード入力フィールド。更新済み。",
         "validation_rules": ["min_length: 8", "requires_special_char", "no_common_passwords"],
-        "security_level": "very_high", // Changed
+        "security_level": "very_high", // 変更
         "related_component": "login-form"
       }
     }
@@ -197,45 +197,45 @@ An AI assistant can use the `use_mcp_tool` to fetch annotations:
 </use_mcp_tool>
 ```
 
-## 6. Direct DOM Access for AI
+## 6. AIによる直接DOM操作
 
-AI agents with direct access to the web page's DOM (e.g., browser extensions, Puppeteer scripts) can simply query the `data-ai-annotation` attribute:
+Webページの DOM に直接アクセスできるAIエージェント（ブラウザ拡張機能、Puppeteerスクリプトなど）は、単に `data-ai-annotation` 属性をクエリできます。
 
 ```javascript
-// Example using browser's querySelector
+// ブラウザのquerySelectorを使用した例
 const button = document.querySelector('button');
 const annotationData = button.getAttribute('data-ai-annotation');
 
 if (annotationData) {
   try {
-    const annotation = JSON.parse(annotationData); // If JSON
-    console.log('Annotation:', annotation);
+    const annotation = JSON.parse(annotationData); // JSONの場合
+    console.log('アノテーション:', annotation);
   } catch (e) {
-    console.log('Annotation (text):', annotationData); // If plain text
+    console.log('アノテーション（テキスト）:', annotationData); // プレーンテキストの場合
   }
 }
 ```
 
-## 7. Use Case Examples
+## 7. ユースケース例
 
-*   **Instructing a Test Bot:** "Click the button annotated with `test_id: 'SUBMIT_ORDER'`."
-*   **Generating Documentation:** Extract all `description` fields from annotations to build a component reference.
-*   **Accessibility Check:** "Verify that all elements annotated with `role: 'button'` are keyboard accessible."
-*   **Design Review:** "Flag any elements whose `color_token` annotation doesn't match the design system palette."
+*   **テストボットへの指示:** "`test_id: 'SUBMIT_ORDER'` でアノテーションされたボタンをクリックしてください。"
+*   **ドキュメント生成:** アノテーションから `description` フィールドをすべて抽出して、コンポーネントリファレンスを構築します。
+*   **アクセシビリティチェック:** "`role: 'button'` でアノテーションされたすべての要素がキーボードでアクセス可能であることを確認します。"
+*   **デザインレビュー:** "`color_token` アノテーションがデザインシステムのパレットと一致しない要素にフラグを立てます。"
 
-## 8. Customization (Advanced)
+## 8. カスタマイズ（高度）
 
-*(Details on customization options like changing the attribute name or hover style will be added here in future versions.)*
+*（属性名やホバースタイルの変更などのカスタマイズオプションの詳細は、将来のバージョンでここに追加される予定です。）*
 
-## 9. Troubleshooting
+## 9. トラブルシューティング
 
-*   **Annotations not appearing:**
-    *   Ensure the script tag is correctly included and the path is valid.
-    *   Check the browser's developer console for any script errors.
-    *   Verify the `data-ai-annotation` attribute is spelled correctly.
-*   **JSON parsing errors:**
-    *   Ensure the JSON within the attribute is valid (use an online validator). Pay attention to quotes and commas.
+*   **アノテーションが表示されない:**
+    *   スクリプトタグが正しく含まれていて、パスが有効であることを確認します。
+    *   ブラウザの開発者コンソールでスクリプトエラーを確認します。
+    *   `data-ai-annotation` 属性のスペルが正しいことを確認します。
+*   **JSONパースエラー:**
+    *   属性内のJSONが有効であることを確認します（オンラインバリデータを使用）。引用符やカンマに注意してください。
 
 ---
 
-This guide provides the basics for implementing `ai-annotation`. As the project evolves, refer back here for updated features and best practices.
+このガイドでは、`ai-annotation` の実装の基本を提供しています。プロジェクトが進化するにつれて、更新された機能とベストプラクティスについてはここを参照してください。

@@ -2,46 +2,46 @@
 outline: deep
 ---
 
-# ai-annotation API Reference
+# ai-annotation API リファレンス
 
-This page describes the APIs provided by `ai-annotation`, focusing on the Model Context Protocol (MCP) server integration for interacting with HTML annotations.
+このページでは、HTMLアノテーションと対話するためのModel Context Protocol (MCP) サーバー統合に焦点を当てた、`ai-annotation` が提供するAPIについて説明します。
 
-## 1. MCP Server Integration
+## 1. MCPサーバー統合
 
-`ai-annotation` offers an optional MCP server that allows AI agents and other tools to programmatically read and potentially modify annotations on web pages without direct browser access.
+`ai-annotation` は、AIエージェントやその他のツールが直接ブラウザアクセスなしでWebページ上のアノテーションをプログラムで読み取り、潜在的に変更できるようにするオプションのMCPサーバーを提供します。
 
-### Setting Up the MCP Server
+### MCPサーバーのセットアップ
 
-To use the MCP integration, you need to run the `ai-annotation` MCP server and configure your client (e.g., VSCode) to connect to it.
+MCP統合を使用するには、`ai-annotation` MCPサーバーを実行し、クライアント（例：VSCode）がそれに接続するように設定する必要があります。
 
-**Example MCP Server Configuration (in VSCode `settings.json`):**
+**MCPサーバー設定例（VSCode `settings.json` 内）:**
 
 ```json
 {
   "mcpServers": {
     "@ai-annotation/mcp": {
-      // Command to start the ai-annotation MCP server
+      // ai-annotation MCPサーバーを起動するコマンド
       "command": "node",
       "args": ["/path/to/your/ai-annotation-mcp/server.js"],
-      // Automatically approve common read operations, prompt for others
+      // 一般的な読み取り操作を自動的に承認し、その他はプロンプトを表示
       "autoApprove": ["readAnnotations", "findElement"],
-      "disabled": false // Set to true to disable
+      "disabled": false // trueに設定すると無効化
     }
   }
 }
 ```
 
-Replace `/path/to/your/ai-annotation-mcp/server.js` with the actual path to the server executable.
+`/path/to/your/ai-annotation-mcp/server.js` を実際のサーバー実行可能ファイルへのパスに置き換えてください。
 
-## 2. MCP Tools
+## 2. MCPツール
 
-The `@ai-annotation/mcp` server provides tools for interacting with annotated web pages.
+`@ai-annotation/mcp` サーバーは、アノテーション付きWebページと対話するためのツールを提供します。
 
 ### `readAnnotations`
 
-Reads annotations from specified elements on a web page.
+Webページ上の指定された要素からアノテーションを読み取ります。
 
-**Input Schema:**
+**入力スキーマ:**
 
 ```json
 {
@@ -49,11 +49,11 @@ Reads annotations from specified elements on a web page.
   "properties": {
     "url": {
       "type": "string",
-      "description": "The URL of the web page to access."
+      "description": "アクセスするWebページのURL。"
     },
     "selector": {
       "type": "string",
-      "description": "A CSS selector to target specific elements. If omitted, reads annotations from all elements with the `data-ai-annotation` attribute."
+      "description": "特定の要素をターゲットにするCSSセレクター。省略すると、`data-ai-annotation` 属性を持つすべての要素からアノテーションを読み取ります。"
     }
   },
   "required": ["url"],
@@ -61,29 +61,29 @@ Reads annotations from specified elements on a web page.
 }
 ```
 
-**Output Schema (Example):**
+**出力スキーマ（例）:**
 
-Returns an array of objects, each containing the element's selector path and its annotation content.
+要素のセレクターパスとそのアノテーションコンテンツを含むオブジェクトの配列を返します。
 
 ```json
 [
   {
     "selector": "body > button:nth-child(2)",
-    "annotation": "Logs the user in after validating credentials."
+    "annotation": "認証情報を検証した後、ユーザーをログインさせます。"
   },
   {
     "selector": "#password",
     "annotation": {
-      "description": "User password input field.",
+      "description": "ユーザーパスワード入力フィールド。",
       "validation_rules": ["min_length: 8", "requires_special_char"],
       "security_level": "high"
     }
   }
-  // ... other annotations
+  // ... その他のアノテーション
 ]
 ```
 
-**Example Usage:**
+**使用例:**
 
 ```xml
 <use_mcp_tool>
@@ -100,9 +100,9 @@ Returns an array of objects, each containing the element's selector path and its
 
 ### `updateAnnotation`
 
-Updates or adds an annotation to a specific element on a web page. (Requires appropriate permissions/prompt approval).
+Webページ上の特定の要素にアノテーションを更新または追加します。（適切な権限/プロンプト承認が必要）。
 
-**Input Schema:**
+**入力スキーマ:**
 
 ```json
 {
@@ -110,15 +110,15 @@ Updates or adds an annotation to a specific element on a web page. (Requires app
   "properties": {
     "url": {
       "type": "string",
-      "description": "The URL of the web page to modify."
+      "description": "変更するWebページのURL。"
     },
     "selector": {
       "type": "string",
-      "description": "A CSS selector to target the specific element to update."
+      "description": "更新する特定の要素をターゲットにするCSSセレクター。"
     },
     "newAnnotation": {
       "type": ["string", "object", "null"],
-      "description": "The new annotation content (string or JSON object). Use null to remove the annotation."
+      "description": "新しいアノテーションコンテンツ（文字列またはJSONオブジェクト）。アノテーションを削除するにはnullを使用します。"
     }
   },
   "required": ["url", "selector", "newAnnotation"],
@@ -126,18 +126,18 @@ Updates or adds an annotation to a specific element on a web page. (Requires app
 }
 ```
 
-**Output Schema (Example):**
+**出力スキーマ（例）:**
 
-Returns a confirmation message.
+確認メッセージを返します。
 
 ```json
 {
   "success": true,
-  "message": "Annotation updated successfully for element matching selector '#username'."
+  "message": "セレクター '#username' に一致する要素のアノテーションが正常に更新されました。"
 }
 ```
 
-**Example Usage:**
+**使用例:**
 
 ```xml
 <use_mcp_tool>
@@ -148,7 +148,7 @@ Returns a confirmation message.
       "url": "http://localhost:8080/profile",
       "selector": "#username",
       "newAnnotation": {
-        "description": "User's display name.",
+        "description": "ユーザーの表示名。",
         "editable": false
       }
     }
@@ -158,9 +158,9 @@ Returns a confirmation message.
 
 ### `findElement`
 
-Finds elements based on their annotation content.
+アノテーションコンテンツに基づいて要素を検索します。
 
-**Input Schema:**
+**入力スキーマ:**
 
 ```json
 {
@@ -168,11 +168,11 @@ Finds elements based on their annotation content.
   "properties": {
     "url": {
       "type": "string",
-      "description": "The URL of the web page to search."
+      "description": "検索するWebページのURL。"
     },
     "annotationQuery": {
       "type": "string",
-      "description": "A query string to search within annotation text. For JSON annotations, use dot notation (e.g., 'security_level:high')."
+      "description": "アノテーションテキスト内を検索するクエリ文字列。JSONアノテーションの場合は、ドット表記を使用します（例：'security_level:high'）。"
     }
   },
   "required": ["url", "annotationQuery"],
@@ -180,9 +180,9 @@ Finds elements based on their annotation content.
 }
 ```
 
-**Output Schema (Example):**
+**出力スキーマ（例）:**
 
-Returns an array of selector paths for elements whose annotations match the query.
+クエリに一致するアノテーションを持つ要素のセレクターパスの配列を返します。
 
 ```json
 [
@@ -191,7 +191,7 @@ Returns an array of selector paths for elements whose annotations match the quer
 ]
 ```
 
-**Example Usage:**
+**使用例:**
 
 ```xml
 <use_mcp_tool>
@@ -206,32 +206,32 @@ Returns an array of selector paths for elements whose annotations match the quer
 </use_mcp_tool>
 ```
 
-## 3. Client-Side Script API (Conceptual)
+## 3. クライアントサイドスクリプトAPI（概念的）
 
-The `ai-annotation.js` script primarily handles the display of annotations on hover. While it might expose a minimal JavaScript API in the future (e.g., for programmatically triggering annotation display or accessing annotations from the client-side), the primary method for programmatic interaction is intended to be via the MCP server or direct DOM manipulation.
+`ai-annotation.js` スクリプトは主にホバー時のアノテーション表示を処理します。将来的には最小限のJavaScript API（例：プログラムでアノテーション表示をトリガーしたり、クライアントサイドからアノテーションにアクセスしたりするため）を公開する可能性がありますが、プログラムによる対話の主要な方法は、MCPサーバーまたは直接のDOM操作を介することを意図しています。
 
-**Example Direct DOM Access (JavaScript):**
+**直接DOM操作の例（JavaScript）:**
 
 ```javascript
-// Get annotation from an element
+// 要素からアノテーションを取得
 const element = document.getElementById('myButton');
 const annotationString = element.getAttribute('data-ai-annotation');
 
 let annotationData;
 if (annotationString) {
   try {
-    annotationData = JSON.parse(annotationString); // Try parsing as JSON
+    annotationData = JSON.parse(annotationString); // JSONとして解析を試みる
   } catch (e) {
-    annotationData = annotationString; // Fallback to string
+    annotationData = annotationString; // 文字列にフォールバック
   }
   console.log(annotationData);
 }
 
-// Set annotation on an element
-const newAnnotation = { purpose: "Navigate to dashboard", timestamp: Date.now() };
+// 要素にアノテーションを設定
+const newAnnotation = { purpose: "ダッシュボードに移動", timestamp: Date.now() };
 element.setAttribute('data-ai-annotation', JSON.stringify(newAnnotation));
 ```
 
 ---
 
-This API reference provides an overview of interacting with `ai-annotation`. Refer to specific tool documentation within the MCP server implementation for the most up-to-date details.
+このAPIリファレンスは、`ai-annotation` との対話の概要を提供します。最新の詳細については、MCPサーバー実装内の特定のツールドキュメントを参照してください。
