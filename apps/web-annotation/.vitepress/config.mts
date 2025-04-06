@@ -49,8 +49,15 @@ export default defineConfig({
 				items: [
 					{ text: "Getting Started", link: "/guide" },
 					{ text: "Usecase", link: "/usecase2" },
-					{ text: "Advanced", link: "/advanced" },
 					{ text: "MCP", link: "/mcp" },
+				],
+			},
+			{
+				text: "Advanced",
+				items: [
+					{ text: "Generate Annotation", link: "/advanced-annotation-generation" },
+					{ text: "Generate Schema", link: "/advanced-schema" },
+					{ text: "Workflow", link: "/advanced-workflow" },
 				],
 			},
 		],
