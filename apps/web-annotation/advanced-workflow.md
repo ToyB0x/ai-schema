@@ -1,33 +1,43 @@
-## Example Workflow: From Design to Deployment with AI Annotation
+## AI Annotation を活用した高度な開発ワークフロー
 
-Let's illustrate how these advanced AI capabilities can work together in a practical development workflow:
+このドキュメントでは、AI Annotation を活用して、UI デザインから機能実装、デプロイメントに至るまでの開発プロセスを効率化する高度なワークフロー例を紹介します。AI がコンテキスト生成（アノテーション）、スキーマ提案、コード調整提案を支援し、開発者は最終的な判断と実装に集中できます。
 
-1.  **Collaborative Design (HTML-based):**
-    *   A designer and an AI assistant work together, potentially using a visual editor or directly manipulating HTML/CSS, to create or modify a UI component (e.g., a new user registration form).
-    *   The focus is initially on the visual layout, structure, and basic interactivity.
+### ステップ1: 協調的なUIデザイン (HTMLベース)
 
-2.  **AI-Powered Annotation Generation/Update:**
-    *   Once the initial HTML structure is ready, an AI tool (triggered manually or automatically) analyzes the new/updated HTML.
-    *   It uses contextual analysis (element types, IDs, classes, surrounding structure, possibly linked design specs) to **automatically generate or update `data-ai-annotation` attributes** for key elements.
-    *   Example: For a new `<input type="password" name="confirmPassword">`, it might generate `{"field": "confirmPassword", "validation": "matches(password)", "required": true}`.
-    *   Example: If a button's text changes from "Register" to "Create Account", the AI suggests updating the annotation's `action` or `purpose` field accordingly.
-    *   The developer reviews and accepts/modifies these generated annotations.
+*   デザイナーとAIアシスタントが協力し、ビジュアルエディタや直接的なHTML/CSS操作を通じてUIコンポーネント（例: 新規ユーザー登録フォーム）を作成・修正します。
+*   初期段階では、視覚的なレイアウト、構造、基本的なインタラクティビティに焦点を当てます。
 
-3.  **AI-Powered Schema Suggestion:**
-    *   Based on the now updated annotations (especially those defining `action`, `endpoint`, `request_payload`, `response_payload`), another AI process (or the same one) analyzes the required data structures and API interactions.
-    *   It compares this derived information with existing backend schemas (GraphQL, OpenAPI, Prisma) read via MCP.
-    *   It then **generates suggestions for schema updates as commented-out code** within the relevant schema files (e.g., adding a new mutation, updating input types, adding fields to a database model), clearly marked with `// Suggested by AI-Annotation YYYY-MM-DD`.
+### ステップ2: AIによるアノテーション生成・更新
 
-4.  **AI-Powered Code Adjustment Suggestion:**
-    *   Following the schema suggestions, the AI analyzes the existing backend codebase (read via MCP).
-    *   It identifies the code sections (controllers, services, data access layers) affected by the proposed schema changes.
-    *   It **generates suggestions for code adjustments, again as commented-out code**, near the relevant lines.
-    *   Example: Suggesting adding the new `department` field to a validation function call or a database insertion query.
+*   初期のHTML構造が完成したら、AIツール（手動または自動でトリガー）が新規・更新されたHTMLを分析します。
+*   要素タイプ、ID、クラス、周辺構造、関連するデザイン仕様などのコンテキスト分析を用いて、主要な要素に対する `data-ai-annotation` 属性を**自動的に生成または更新**します。
+*   **例1:** 新しい `<input type="password" name="confirmPassword">` に対して、以下のようなアノテーションを生成します。
+    ```json
+    {"field": "confirmPassword", "validation": "matches(password)", "required": true}
+    ```
+*   **例2:** ボタンのテキストが "Register" から "Create Account" に変更された場合、AIはアノテーションの `action` や `purpose` フィールドの更新を提案します。
+*   開発者は、生成されたアノテーションを確認し、承認または修正します。
 
-5.  **Developer Implementation & Testing:**
-    *   The developer reviews the commented-out suggestions in both the schema files and the backend code.
-    *   They uncomment the suggestions they agree with, potentially making minor adjustments.
-    *   They implement any remaining logic (e.g., specific business rules not captured in annotations).
-    *   AI-powered testing tools can then use the final annotations and schemas to help generate and run integration or end-to-end tests.
+### ステップ3: AIによるスキーマ提案
 
-**Outcome:** This workflow leverages AI at multiple stages, using annotations as the central communication mechanism. AI assists in creating context (annotations), translating that context into formal contracts (schemas), and suggesting necessary code changes, all while keeping the developer in control. This significantly streamlines the process of moving from UI design to a fully integrated and functional feature.
+*   更新されたアノテーション（特に `action`, `endpoint`, `request_payload`, `response_payload` を定義するもの）に基づき、別のAIプロセス（または同じプロセス）が必要なデータ構造とAPIインタラクションを分析します。
+*   導き出された情報を、MCP経由で読み取った既存のバックエンドスキーマ（GraphQL, OpenAPI, Prismaなど）と比較します。
+*   関連するスキーマファイル内に、**スキーマ更新の提案をコメントアウトされたコードとして生成**します（例: 新しいミューテーションの追加、入力型の更新、データベースモデルへのフィールド追加）。提案には `// Suggested by AI-Annotation YYYY-MM-DD` のような明確なマークが付けられます。
+
+### ステップ4: AIによるコード調整提案
+
+*   スキーマ提案に続き、AIはMCP経由で読み取った既存のバックエンドコードベースを分析します。
+*   提案されたスキーマ変更の影響を受けるコードセクション（コントローラー、サービス、データアクセス層など）を特定します。
+*   関連する行の近くに、**コード調整の提案をコメントアウトされたコードとして生成**します。
+*   **例:** バリデーション関数の呼び出しやデータベース挿入クエリに、新しい `department` フィールドを追加する提案など。
+
+### ステップ5: 開発者による実装とテスト
+
+*   開発者は、スキーマファイルとバックエンドコードの両方で、コメントアウトされた提案を確認します。
+*   同意する提案のコメントを解除し、必要に応じて微調整を加えます。
+*   残りのロジック（例: アノテーションで捉えきれなかった特定のビジネスルール）を実装します。
+*   AIを活用したテストツールは、最終的なアノテーションとスキーマを使用して、統合テストやエンドツーエンドテストの生成・実行を支援できます。
+
+### ワークフローの成果
+
+このワークフローは、アノテーションをコミュニケーションの中心的なメカニズムとして使用し、開発の複数の段階でAIを活用します。AIはコンテキストの作成（アノテーション）、そのコンテキストの形式的な契約（スキーマ）への変換、そして必要なコード変更の提案を支援し、開発者は常に管理権を保持します。これにより、UIデザインから完全に統合された機能的なフィーチャーへの移行プロセスが大幅に効率化されます。
