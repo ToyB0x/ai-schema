@@ -2,82 +2,82 @@
 outline: deep
 ---
 
-# Collaborative HTML Annotation: Bridging Human and AI Interaction
+# 協調的HTML注釈：人間とAIのインタラクションの架け橋
 
-## Introduction
+## はじめに
 
-`ai-annotation` introduces a novel approach to human-AI collaboration centered around annotating HTML elements directly. In today's AI-driven development landscape, providing clear context about UI components to AI agents is crucial for tasks like automated testing, design generation, and accessibility analysis. However, existing methods often involve separate documentation or complex integrations.
+`ai-annotation`は、HTML要素に直接注釈を付けることを中心とした、人間とAIのコラボレーションに対する新しいアプローチを導入します。今日のAI駆動型開発環境では、自動テスト、デザイン生成、アクセシビリティ分析などのタスクにおいて、AIエージェントにUIコンポーネントに関する明確なコンテキストを提供することが重要です。しかし、既存の方法では、別個のドキュメントや複雑な統合が必要になることがよくあります。
 
-`ai-annotation` simplifies this by allowing developers and designers to embed descriptive annotations directly within the HTML structure. By adding just a single script tag, these annotations become interactive in the browser, visible on hover, and accessible to both humans and AI systems via the Model Context Protocol (MCP) or direct DOM access.
+`ai-annotation`は、開発者やデザイナーがHTML構造内に直接説明的な注釈を埋め込むことを可能にすることでこれを簡素化します。単一のスクリプトタグを追加するだけで、これらの注釈はブラウザ内でインタラクティブになり、ホバー時に表示され、Model Context Protocol（MCP）または直接のDOMアクセスを通じて人間とAIシステムの両方からアクセス可能になります。
 
-## Why Annotate HTML Directly?
+## なぜHTMLに直接注釈を付けるのか？
 
-Embedding annotations in HTML offers several advantages:
+HTMLに注釈を埋め込むことには、いくつかの利点があります：
 
-*   **Contextual Proximity:** Information about a UI element lives directly with the element itself, making it easy to understand its purpose and intended behavior.
-*   **Single Source of Truth:** Reduces the need for separate documentation that can quickly become outdated. The HTML itself becomes the reference point.
-*   **Seamless Integration:** Fits naturally into existing web development workflows. Annotations can be added during development or design phases.
-*   **Enhanced AI Understanding:** Provides structured, element-specific context that AI agents can readily consume to perform tasks more accurately.
+* **コンテキストの近接性：** UI要素に関する情報が要素自体と直接結びついており、その目的と意図された動作を理解しやすくなります。
+* **単一の真実源：** すぐに古くなる可能性のある別個のドキュメントの必要性を減らします。HTML自体が参照ポイントになります。
+* **シームレスな統合：** 既存のWeb開発ワークフローに自然にフィットします。注釈は開発またはデザインフェーズ中に追加できます。
+* **AIの理解の向上：** AIエージェントがタスクをより正確に実行するために容易に消費できる、構造化された要素固有のコンテキストを提供します。
 
-## Core Concepts & Features
+## コアコンセプトと機能
 
-### 1. Simple Integration via Script Tag
+### 1. スクリプトタグによる簡単な統合
 
-Getting started is as easy as adding a single line of code to your HTML file.
+始めるのは、HTMLファイルに1行のコードを追加するだけです。
 
 ```html
 <script src="https://cdn.example.com/ai-annotation.js" defer></script>
 ```
 
-This script activates the annotation features within the browser environment.
+このスクリプトは、ブラウザ環境内で注釈機能を有効にします。
 
-### 2. Inline Annotations
+### 2. インライン注釈
 
-Annotations are added using a simple `data-ai-annotation` attribute (or potentially other configurable methods).
+注釈は、シンプルな`data-ai-annotation`属性（または他の設定可能な方法）を使用して追加されます。
 
 ```html
 <button
   data-ai-annotation='{
-    "description": "Submits the user registration form.",
+    "description": "ユーザー登録フォームを送信します。",
     "state": "active",
     "responsible_team": "auth-team",
     "test_id": "REG-001"
   }'
 >
-  Register
+  登録
 </button>
 
 <input
   type="email"
-  placeholder="Enter your email"
-  data-ai-annotation="User's primary email address for login and notifications."
+  placeholder="メールアドレスを入力"
+  data-ai-annotation="ログインと通知のためのユーザーの主要メールアドレス。"
 />
 ```
 
-Annotations can range from simple descriptions to structured JSON data.
+注釈は、単純な説明から構造化されたJSONデータまで多岐にわたります。
 
-### 3. Interactive Browser Experience
+### 3. インタラクティブなブラウザ体験
 
-Once the script is loaded, hovering over an annotated element in the browser will display its annotation, making it instantly visible to human users (developers, testers, designers). Future versions may include visual editing capabilities directly in the browser.
+スクリプトが読み込まれると、ブラウザで注釈付きの要素にカーソルを合わせると、その注釈が表示され、人間のユーザー（開発者、テスター、デザイナー）に即座に見えるようになります。将来のバージョンでは、ブラウザ内で直接視覚的な編集機能が含まれる可能性があります。
 
-### 4. Human & AI Collaboration
+### 4. 人間とAIのコラボレーション
 
-The core idea is a shared understanding.
-*   **Humans:** Can easily read and write annotations to convey intent, requirements, or notes.
-*   **AI:** Can programmatically access these annotations to understand the UI's structure, purpose, and state, enabling more informed actions.
+核心的なアイデアは共有理解です。
+* **人間：** 意図、要件、またはメモを伝えるために、注釈を簡単に読み書きできます。
+* **AI：** UIの構造、目的、および状態を理解するために、これらの注釈にプログラム的にアクセスでき、より情報に基づいた行動を可能にします。
 
-### 5. MCP Service Integration
+### 5. MCPサービス統合
 
-`ai-annotation` provides an optional MCP service. This allows AI agents (like development assistants or testing bots) to interact with annotations remotely without needing direct browser access.
+`ai-annotation`はオプションのMCPサービスを提供します。これにより、AIエージェント（開発アシスタントやテストボットなど）は、直接のブラウザアクセスを必要とせずに、リモートで注釈とやり取りすることができます。
 
-**Example MCP Configuration:**
+**MCPの設定例：**
 
 ```json
-// In your VSCode settings.json or similar
+// VSCodeのsettings.jsonまたは類似の設定ファイルで
 {
   "mcpServers": {
     "@ai-annotation/mcp": {
-      "command": "node", // Or appropriate command
+      "command": "node", // または適切なコマンド
       "args": ["/path/to/ai-annotation-mcp-server"],
       "autoApprove": ["readAnnotations", "updateAnnotation"],
       "disabled": false
@@ -86,7 +86,7 @@ The core idea is a shared understanding.
 }
 ```
 
-**Example MCP Tool Usage:**
+**MCPツールの使用例：**
 
 ```xml
 <use_mcp_tool>
@@ -101,14 +101,14 @@ The core idea is a shared understanding.
 </use_mcp_tool>
 ```
 
-## Potential Use Cases
+## 潜在的なユースケース
 
-*   **AI-Powered Testing:** AI agents can read annotations to understand button functions, input field expectations, and element states, leading to more robust automated tests.
-*   **Automated Documentation:** Generate user guides or component libraries by extracting information from annotations.
-*   **Accessibility Audits:** Annotate elements with accessibility information (ARIA roles, expected keyboard behavior) for automated checks.
-*   **Design System Compliance:** Annotate components with design token references or usage guidelines for AI-driven consistency checks.
-*   **Collaborative Development:** Leave notes or instructions for team members (human or AI) directly on the relevant UI elements.
+* **AIを活用したテスト：** AIエージェントは注釈を読み取ってボタンの機能、入力フィールドの期待値、要素の状態を理解し、より堅牢な自動テストを実現します。
+* **自動ドキュメント生成：** 注釈から情報を抽出してユーザーガイドやコンポーネントライブラリを生成します。
+* **アクセシビリティ監査：** 要素にアクセシビリティ情報（ARIAロール、期待されるキーボード動作）で注釈を付けて、自動チェックを行います。
+* **デザインシステムコンプライアンス：** コンポーネントにデザイントークン参照や使用ガイドラインで注釈を付けて、AI駆動の一貫性チェックを行います。
+* **協調的開発：** 関連するUI要素に直接、チームメンバー（人間またはAI）へのメモや指示を残します。
 
-## Summary
+## まとめ
 
-`ai-annotation` aims to streamline human-AI collaboration in web development by making HTML itself the medium for communication. By embedding simple, accessible annotations, we provide a shared context that empowers both humans and AI to work together more effectively on UI-related tasks. The ease of integration and the optional MCP service make it a flexible tool for various development workflows.
+`ai-annotation`は、HTML自体をコミュニケーションの媒体にすることで、Web開発における人間とAIのコラボレーションを効率化することを目指しています。シンプルでアクセスしやすい注釈を埋め込むことで、UI関連のタスクでより効果的に協力するための共有コンテキストを人間とAIの両方に提供します。統合の容易さとオプションのMCPサービスにより、さまざまな開発ワークフローに柔軟に対応するツールとなっています。
