@@ -48,7 +48,8 @@ export default defineConfig({
 				text: "Guide",
 				items: [
 					{ text: "Getting Started", link: "/guide" },
-					{ text: "Usecase", link: "/usecase2" },
+					{ text: "Usecase1", link: "/usecase" },
+					{ text: "Usecase2", link: "/usecase2" },
 					{ text: "MCP", link: "/mcp" },
 				],
 			},
