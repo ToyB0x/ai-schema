@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Configure marked options
       marked.setOptions({
         breaks: true,
-        gfm: true
+        gfm: true,
+        langPrefix: 'language-' // 言語クラスを正しく設定
       });
     });
   }
@@ -46,6 +47,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const annotatedElements = document.querySelectorAll('[data-ai-annotation]');
   let tooltipElement = null;
+  let isTooltipVisible = false;
+  
+  // 修飾キーの状態を追跡
+  let modifierKeyPressed = false;
+  
+  // キーボードイベントリスナー
+  document.addEventListener('keydown', (event) => {
+    if (event.altKey || event.ctrlKey || event.shiftKey) {
+      modifierKeyPressed = true;
+    }
+  });
+  
+  document.addEventListener('keyup', (event) => {
+    // すべての修飾キーが離されたかチェック
+    if (!(event.altKey || event.ctrlKey || event.shiftKey)) {
+      modifierKeyPressed = false;
+      // ポップアップが表示中で、マウスがポップアップ上にない場合は閉じる
+      if (isTooltipVisible && tooltipElement && !isMouseOverTooltip) {
+        hideTooltip();
+      }
+    }
+  });
 
   // Create a reusable tooltip element (initially hidden)
   function createTooltip() {
@@ -58,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tooltipElement.style.borderRadius = '6px';
       tooltipElement.style.fontSize = '14px';
       tooltipElement.style.zIndex = '10000'; // Ensure it's on top
-      tooltipElement.style.pointerEvents = 'none'; // Prevent tooltip from blocking mouse events
+      tooltipElement.style.pointerEvents = 'auto'; // ポップアップ内での選択やスクロールを可能にする
       tooltipElement.style.display = 'none'; // Hidden by default
       tooltipElement.style.maxWidth = '500px'; // Increased width for better markdown display
       tooltipElement.style.maxHeight = '400px'; // Limit height
@@ -67,12 +90,28 @@ document.addEventListener('DOMContentLoaded', () => {
       tooltipElement.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
       tooltipElement.style.border = '1px solid #ddd';
       document.body.appendChild(tooltipElement);
+      
+      // ポップアップ自体にマウスイベントリスナーを追加
+      let isMouseOverTooltip = false;
+      
+      tooltipElement.addEventListener('mouseover', () => {
+        isMouseOverTooltip = true;
+      });
+      
+      tooltipElement.addEventListener('mouseout', () => {
+        isMouseOverTooltip = false;
+        // 修飾キーが押されていない場合のみ閉じる
+        if (!modifierKeyPressed) {
+          hideTooltip();
+        }
+      });
     }
   }
 
   // Show tooltip with content
   function showTooltip(event, content) {
     createTooltip(); // Ensure tooltip exists
+    isTooltipVisible = true;
 
     // First try parsing as JSON for potentially structured content
     let displayContent = content;
@@ -102,11 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
             hljs.highlightElement(block);
           }
           
-          // Special handling for diff blocks to add color
-          for (const block of tooltipElement.querySelectorAll('code.language-diff')) {
-            block.innerHTML = block.innerHTML
-              .replace(/^\+.*$/gm, match => `<span style="color: #22863a; background-color: #f0fff4;">${match}</span>`)
-              .replace(/^-.*$/gm, match => `<span style="color: #cb2431; background-color: #ffeef0;">${match}</span>`);
+          // すべてのコードブロックをチェックし、diff構文を検出して色付け
+          for (const block of tooltipElement.querySelectorAll('pre code')) {
+            // diffの言語クラスを持つか、または+/-で始まる行を含むコードブロックを処理
+            if (block.classList.contains('language-diff') || block.textContent.match(/^[+-]/m)) {
+              block.innerHTML = block.innerHTML
+                .replace(/^(\+.*)$/gm, '<span style="color: #22863a; background-color: #f0fff4;">$1</span>')
+                .replace(/^(-.*)/gm, '<span style="color: #cb2431; background-color: #ffeef0;">$1</span>');
+            }
           }
         }
       } else {
@@ -116,17 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     tooltipElement.style.display = 'block';
-    positionTooltip(event);
+    positionTooltip(event); // 初回表示時のみ位置を設定（以降は固定）
   }
 
   // Hide tooltip
   function hideTooltip() {
     if (tooltipElement) {
       tooltipElement.style.display = 'none';
+      isTooltipVisible = false;
     }
   }
 
-  // Position tooltip near the mouse cursor
+  // Position tooltip near the mouse cursor (初回表示時のみ呼び出される)
   function positionTooltip(event) {
     if (!tooltipElement) return;
 
@@ -164,18 +207,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       element.addEventListener('mouseout', (event) => {
         event.stopPropagation();
-        hideTooltip();
-      });
-
-      // Also update position on mouse move while hovering
-      element.addEventListener('mousemove', (event) => {
-        if (tooltipElement && tooltipElement.style.display === 'block') {
-          positionTooltip(event);
+        // 修飾キーが押されていない場合のみ閉じる
+        if (!modifierKeyPressed) {
+          hideTooltip();
         }
       });
+      
+      // mousemoveイベントリスナーは削除（ポップアップ位置を固定するため）
     }
   }
 
-  // Hide tooltip if mouse leaves the window
-  document.addEventListener('mouseleave', hideTooltip);
+  // Hide tooltip if mouse leaves the window (修飾キーが押されていない場合のみ)
+  document.addEventListener('mouseleave', () => {
+    if (!modifierKeyPressed) {
+      hideTooltip();
+    }
+  });
 });
