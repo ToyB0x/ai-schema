@@ -9,7 +9,7 @@
 		"typecheck": "turbo run typecheck"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
+		"@biomejs/biome": "2.5.5",
 		"turbo": "2.5.0"
 	},
 	"packageManager": "pnpm@10.7.1",
