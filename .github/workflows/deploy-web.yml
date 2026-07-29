@@ -42,7 +42,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
 
       - name: Setup Pages
